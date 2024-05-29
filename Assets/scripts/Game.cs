@@ -25,6 +25,12 @@ public class Game : MonoBehaviour {
 
 	private bool gameOver = false;
 
+	public GameObject canvas;
+
+	[SerializeField]
+	private Transform squareParant;
+
+
 	// Use this for initialization
 	void Start () {
 
@@ -95,6 +101,7 @@ public class Game : MonoBehaviour {
 		{
 			int rGen = r.Next(0, 3);
 			GameObject obj = Instantiate(Card, new Vector3(0, 0, -1), Quaternion.identity);
+			obj.transform.SetParent(canvas.transform, false);
 
 			c[i] = obj;
 
@@ -132,7 +139,8 @@ public class Game : MonoBehaviour {
 					GameObject obj = null;
 					if(rGen != 0)
 					{
-                        obj = Instantiate(Square, new Vector3(0, 0, -1), Quaternion.identity);
+                       obj = Instantiate(Square, new Vector3(0, 0, -1), Quaternion.identity, squareParant);
+                        //obj = Instantiate(Square, new Vector3(0, 0, -1), Quaternion.identity);
                     }
 					t[i, j] = obj;
 
