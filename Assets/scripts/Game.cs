@@ -18,14 +18,13 @@ public class Game : MonoBehaviour {
 
     public GameObject[] cards = new GameObject[4];
 
-	public Card selectedCardToDestroy;
-	public GameObject ObjectCardToDestroy;
+	private Hand hand;
 
-	public bool cardSelected = false;
-
+	public Deck deck;
+	
 	private bool gameOver = false;
 
-	public GameObject canvas;
+	public Canvas canvas;
 
 	[SerializeField]
 	private Transform squareParant;
@@ -42,12 +41,16 @@ public class Game : MonoBehaviour {
             }
         }
 
-        Player = Create ("Player", 0, 0);
+        Player = Create ("Player", 0, 0); //also creates deck here
+		Player.GetComponent<Deck>().setPlayer(Player);
+		Player.GetComponent<Deck>().cardObject = Card;
+        Player.GetComponent<Deck>().setCanvas(canvas);
+        Player.GetComponent<Deck>().setHand(Player.GetComponent<Hand>());
+        Player.GetComponent<Deck>().Activate();
 
-		System.Random r  = new System.Random ();
+        System.Random r  = new System.Random ();
 		tiles = CreateTiles(r);
 
-		cards = CreateCards(r);
 
 		SetPosition (Player);
 		SetPositionTiles (tiles);
@@ -55,6 +58,7 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		/*
 		if(selectedCardToDestroy != null)
 		{
 			for (int i = 0; i < 4; i++)
@@ -91,36 +95,9 @@ public class Game : MonoBehaviour {
                 card.setY(i);
                 card.Activate();
             }
-        }
+        }*/
+		
     }
-
-	GameObject[] CreateCards(System.Random r)
-	{
-		GameObject[] c = new GameObject[4];
-		for (int i = 0; i < 4; i++)
-		{
-			int rGen = r.Next(0, 3);
-			GameObject obj = Instantiate(Card, new Vector3(0, 0, -1), Quaternion.identity);
-			obj.transform.SetParent(canvas.transform, false);
-
-			c[i] = obj;
-
-			Card card = obj.GetComponent<Card>();
-
-			card.setReference(Player);
-
-			switch (rGen)
-			{
-				case 0: card.type = "fire"; break;
-				case 1: card.type = "grass"; break;
-				case 2: card.type = "water"; break;
-			}
-			card.setX(5);
-			card.setY(i);
-			card.Activate();
-		}
-		return c;
-	}
 
 	GameObject[,] CreateTiles(System.Random r)
 	{
@@ -169,7 +146,10 @@ public class Game : MonoBehaviour {
 	GameObject Create(string name, int x, int y){
 		GameObject obj = Instantiate (Player, new Vector3 (0, 0, -1), Quaternion.identity);
 		Balls handler = obj.GetComponent<Balls> ();
-		handler.name = name;
+		obj.AddComponent<Deck>();
+		deck = obj.GetComponent<Deck> ();
+        obj.AddComponent<Hand>();
+        handler.name = name;
 		handler.setX (x);
 		handler.setY (y);
 		handler.Activate ();

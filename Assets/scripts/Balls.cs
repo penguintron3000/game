@@ -26,7 +26,11 @@ public class Balls : MonoBehaviour {
 		this.GetComponent<SpriteRenderer> ().sprite = Player;
 	}
 
-	public void SetCoords(){
+    private void Update()
+    {
+		InitiateMove();
+    }
+    public void SetCoords(){
 		float x = this.x;
 		float y = this.y;
 

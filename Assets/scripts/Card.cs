@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    public GameObject controller;
+    public Hand Hand;
 
     public GameObject Player;
 
@@ -15,12 +15,24 @@ public class Card : MonoBehaviour
 
     public Sprite card;
 
+    public int CardPosition;
+
+    private RectTransform rectTransform;
+    private float rectX;
+    private float rectY;
 
     public void Activate()
     {
-        controller = GameObject.FindGameObjectWithTag("GameController");
+        rectTransform = GetComponent<RectTransform>();
+
+        Hand = Player.GetComponent<Hand>();
 
         SetCoords();
+        /**
+        rectX = rectTransform.anchoredPosition.x;
+        rectY = rectTransform.anchoredPosition.y;
+        Debug.Log(rectTransform.anchoredPosition);
+        */
 
         switch (this.type)
         {
@@ -32,12 +44,20 @@ public class Card : MonoBehaviour
         this.GetComponent<SpriteRenderer>().sprite = card;
     }
 
+    public void setColor()
+    {
+        switch (this.type)
+        {
+            case "fire": this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
+            case "grass": this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
+            case "water": this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+        }
+    }
 
     public void OnMouseUp()
     {
-        controller = GameObject.FindGameObjectWithTag("GameController");
 
-        if (controller.GetComponent<Game>().selectedCardToDestroy == null && !controller.GetComponent<Game>().cardSelected)
+        if (Hand.selectedCardToDestroy == null && !Hand.cardSelected)
         {
             this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 
@@ -48,11 +68,11 @@ public class Card : MonoBehaviour
                 case "water": Player.GetComponent<Balls>().setType("water"); break;
             }
 
-            controller.GetComponent<Game>().cardSelected = true;
+            Hand.cardSelected = true;
 
-            controller.GetComponent<Game>().selectedCardToDestroy = this;
+            Hand.selectedCardToDestroy = this;
         }
-        else if(controller.GetComponent<Game>().selectedCardToDestroy == this)
+        else if(Hand.selectedCardToDestroy == this)
         {
             switch (this.type)
             {
@@ -63,16 +83,16 @@ public class Card : MonoBehaviour
 
             Player.GetComponent<Balls>().setType("");
 
-            controller.GetComponent<Game>().cardSelected = false;
-            controller.GetComponent<Game>().selectedCardToDestroy = null;
+            Hand.cardSelected = false;
+            Hand.selectedCardToDestroy = null;
         }
         else
         {
             this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 
-            Card pastTarget = controller.GetComponent<Game>().selectedCardToDestroy;
+            Card pastTarget = Hand.selectedCardToDestroy;
 
-            switch (controller.GetComponent<Game>().selectedCardToDestroy.type)
+            switch (Hand.selectedCardToDestroy.type)
             {
                 case "fire": pastTarget.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
                 case "grass": pastTarget.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
@@ -81,9 +101,9 @@ public class Card : MonoBehaviour
 
             Player.GetComponent<Balls>().setType(type);
 
-            controller.GetComponent<Game>().cardSelected = true;
+            Hand.cardSelected = true;
 
-            controller.GetComponent<Game>().selectedCardToDestroy = this;
+            Hand.selectedCardToDestroy = this;
         }
 
     }
@@ -102,6 +122,35 @@ public class Card : MonoBehaviour
 
         this.transform.position = new Vector3(x, y, -1.0f);
 
+        /**
+        rectX = rectTransform.anchoredPosition.x;
+        rectY = rectTransform.anchoredPosition.y;
+        rectTransform.anchoredPosition = new Vector2(rectX, rectY);
+        */
+    }
+
+    public float getRectX()
+    {
+        return rectX;
+    }
+    public float getRectY()
+    {
+        return rectY;
+    }
+
+    public void setRectXY(float x, float y)
+    {
+        rectX = x;
+        rectY = y;
+    }
+    public RectTransform getRectTransform()
+    {
+        return rectTransform;
+    }
+
+    public void setRectTransform(RectTransform rectTransform)
+    {
+        this.rectTransform = rectTransform;
     }
 
     public void setX(int x)
@@ -127,5 +176,15 @@ public class Card : MonoBehaviour
     public void setReference(GameObject obj)
     {
         Player = obj;
+    }
+
+    public int getCardPosition()
+    {
+        return CardPosition;
+    }
+
+    public void setCardPosition(int cardPosition)
+    {
+        this.CardPosition = cardPosition;
     }
 }

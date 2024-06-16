@@ -7,6 +7,8 @@ public class Move : MonoBehaviour {
 
 	public GameObject controller;
 
+	public Hand hand;
+
 	GameObject reference = null;
 
 	int boardX;
@@ -24,12 +26,13 @@ public class Move : MonoBehaviour {
 
 	public void OnMouseUp(){
 		controller = GameObject.FindGameObjectWithTag ("GameController");
+		hand = reference.GetComponent<Hand>();
 
 		if (attack && !(boardX == reference.GetComponent<Balls>().getX() && boardY == reference.GetComponent<Balls>().getY())) {
 			GameObject tileObject = controller.GetComponent<Game> ().GetPosition (boardX, boardY);
 			Destroy (tileObject);
-			Destroy(controller.GetComponent<Game>().ObjectCardToDestroy);
-			controller.GetComponent<Game>().cardSelected = false;
+			hand.Draw(hand.getIndex());
+			hand.cardSelected = false;
 			reference.GetComponent<Balls>().setType("");
 
         }
