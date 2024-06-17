@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Deck: MonoBehaviour 
 {
-    private GameObject[] deck;
+    private Queue<GameObject> deck;
+    //dequeue first 4 cards to hand, so starting deck size is 36
     private int deckSize = 40;
     public GameObject cardObject;
     [SerializeField] private GameObject canvasObject;
@@ -15,7 +16,7 @@ public class Deck: MonoBehaviour
 
     public void Activate()
     {
-        deck = new GameObject[deckSize];
+        deck = new Queue<GameObject>();
         System.Random r = new System.Random();
         deck = CreateCards(r);
         canvasObject = GameObject.FindGameObjectWithTag("Canvas");
@@ -24,16 +25,16 @@ public class Deck: MonoBehaviour
         hand.Activate();
     }
 
-    GameObject[] CreateCards(System.Random r)
+    Queue<GameObject> CreateCards(System.Random r)
     {
-        GameObject[] c = new GameObject[deckSize];
+        Queue<GameObject> c = new Queue<GameObject>();
         for (int i = 0; i < deckSize; i++)
         {
             int rGen = r.Next(0, 3);
             GameObject obj = Instantiate(cardObject, new Vector3(0, 0, -1), Quaternion.identity);
             obj.transform.SetParent(canvas.transform, false);
 
-            c[i] = obj;
+            c.Enqueue(obj);
 
             Card card = obj.GetComponent<Card>();
 
@@ -58,44 +59,37 @@ public class Deck: MonoBehaviour
         Player = player;
     }
 
-    public GameObject[] getDeckList()
+    public Queue<GameObject> getDeckList()
     {
         return deck;
     }
 
-    public void Draw(int index)
+    public void Draw(GameObject discardedCard)
     {
-        GameObject saveCard = deck[index];
 
-        int x = saveCard.GetComponent<Card>().getX();
-        int y = saveCard.GetComponent<Card>().getY();
-        RectTransform rect = saveCard.GetComponent<Card>().getRectTransform();
-        saveCard.GetComponent<Card>().setX(deck[4].GetComponent<Card>().getX());
-        saveCard.GetComponent<Card>().setY(deck[4].GetComponent<Card>().getY());
-        float rectX = saveCard.GetComponent<Card>().getRectX();
-        float rectY = saveCard.GetComponent<Card>().getRectY();
-        saveCard.GetComponent<Card>().setRectXY(deck[4].GetComponent<Card>().getRectX(), deck[4].GetComponent<Card>().getRectY());
-        saveCard.GetComponent<Card>().setCardPosition(-1);
-        saveCard.SetActive(false);
+        GameObject toHand = deck.Peek();
+
+        int x = discardedCard.GetComponent<Card>().getX();
+        int y = discardedCard.GetComponent<Card>().getY();
+        RectTransform rect = discardedCard.GetComponent<Card>().getRectTransform();
+        discardedCard.GetComponent<Card>().setX(toHand.GetComponent<Card>().getX());
+        discardedCard.GetComponent<Card>().setY(toHand.GetComponent<Card>().getY());
+        float rectX = discardedCard.GetComponent<Card>().getRectX();
+        float rectY = discardedCard.GetComponent<Card>().getRectY();
+        discardedCard.GetComponent<Card>().setRectXY(toHand.GetComponent<Card>().getRectX(), toHand.GetComponent<Card>().getRectY());
+        discardedCard.GetComponent<Card>().setCardPosition(-1);
+        discardedCard.SetActive(false);
 
         //deck[index] = deck[4];
-        deck[4].GetComponent<Card>().setX(x);
-        deck[4].GetComponent<Card>().setY(y);
-        deck[4].GetComponent<Card>().setRectXY(rectX, rectY);
-        saveCard.GetComponent<Card>().SetCoords();
-        deck[4].GetComponent <Card>().SetCoords();
-        deck[4].GetComponent<Card>().Activate();
-        deck[index] = deck[4];
-        deck[index].SetActive(true);
+        toHand.GetComponent<Card>().setX(x);
+        toHand.GetComponent<Card>().setY(y);
+        toHand.GetComponent<Card>().setRectXY(rectX, rectY);
+        discardedCard.GetComponent<Card>().SetCoords();
+        toHand.GetComponent <Card>().SetCoords();
+        toHand.GetComponent<Card>().Activate();
+        toHand.SetActive(true);
 
-        //Debug.Log(saveCard.GetComponent<Card>().getRectTransform().anchoredPosition);
-        //Debug.Log(deck[index].GetComponent<Card>().getRectTransform().anchoredPosition);
-
-        for (int i = 4; i < deckSize - 1; i++)
-        {
-            deck[i] = deck[i + 1];
-        }
-        deck[deckSize - 1] = saveCard;
+        deck.Enqueue(discardedCard);
     }
 
     public void setHand(Hand hand)

@@ -5,8 +5,7 @@ using UnityEngine;
 public class Hand : MonoBehaviour
 {
     private Deck deck;
-    private GameObject[] deckList;
-    private int deckSize;
+    private Queue<GameObject> deckList;
     private GameObject controller;
 
     public Card selectedCardToDestroy;
@@ -22,11 +21,10 @@ public class Hand : MonoBehaviour
     {
         deckList = deck.getDeckList();
         hand = new GameObject[handSize];
-        deckSize = deckList.Length;
         //initial draw
         for(int i = 0; i < hand.Length; i++)
         {
-            hand[i] = deckList[i];
+            hand[i] = deckList.Dequeue();
             hand[i].GetComponent<Card>().setCardPosition(i);
             hand[i].SetActive(true);
         }
@@ -36,8 +34,8 @@ public class Hand : MonoBehaviour
     {
         hand[index].GetComponent<Card>().setCardPosition(-1);
         hand[index].GetComponent<Card>().setColor();
-        deck.Draw(index);
-        hand[index] = deckList[index];
+        deck.Draw(hand[index]); //CHANGE TO HAND[INDEX] 6/16/2024
+        hand[index] = deckList.Dequeue();
         hand[index].GetComponent<Card>().setCardPosition(index);
         Debug.Log("index " + index);
     } 

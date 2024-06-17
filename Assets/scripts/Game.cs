@@ -58,44 +58,6 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		/*
-		if(selectedCardToDestroy != null)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				if (cards[i].GetComponent<Card>().Equals(selectedCardToDestroy))
-				{
-					ObjectCardToDestroy = cards[i];
-				}
-			}
-		}
-
-
-		System.Random r = new System.Random();
-        for (int i = 0; i < 4; i++)
-        {
-			if (cards[i] == null)
-			{
-                int rGen = r.Next(0, 3);
-                GameObject obj = Instantiate(Card, new Vector3(0, 0, -1), Quaternion.identity);
-
-                cards[i] = obj;
-
-                Card card = obj.GetComponent<Card>();
-
-                card.setReference(Player);
-
-                switch (rGen)
-                {
-                    case 0: card.type = "fire"; break;
-                    case 1: card.type = "grass"; break;
-                    case 2: card.type = "water"; break;
-                }
-                card.setX(5);
-                card.setY(i);
-                card.Activate();
-            }
-        }*/
 		
     }
 

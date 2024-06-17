@@ -1,0 +1,93 @@
+Using pre-set license
+Built from '2020.3/staging' branch; Version is '2020.3.11f1 (99c7afb366b3) revision 10078127'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Home; OS build 19045.4529; Version 2009; 64bit' Language: 'en' Physical Memory: 40351 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Users\werty\Downloads\UnityEditors\2020.3.11f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Users/werty/Downloads/game
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+57710
+Successfully changed project path to: C:/Users/werty/Downloads/game
+C:/Users/werty/Downloads/game
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 29.55 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2020.3.11f1 (99c7afb366b3)
+[Subsystems] Discovering subsystems at path C:/Users/werty/Downloads/UnityEditors/2020.3.11f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/werty/Downloads/game/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3060 Laptop GPU (ID=0x2520)
+    Vendor:   
+    VRAM:     6023 MB
+    Driver:   30.0.15.1278
+Initialize mono
+Mono path[0] = 'C:/Users/werty/Downloads/UnityEditors/2020.3.11f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Users/werty/Downloads/UnityEditors/2020.3.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Users/werty/Downloads/UnityEditors/2020.3.11f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56528
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Users/werty/Downloads/UnityEditors/2020.3.11f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.002521 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 28.97 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.384 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.004911 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.47 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.105 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.05 seconds
+Refreshing native plugins compatible for Editor in 0.40 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1395 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 64.9 MB.
+System memory in use after: 65.0 MB.
+
+Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 1829.
+Total: 4.618200 ms (FindLiveObjects: 0.222400 ms CreateObjectMapping: 0.104500 ms MarkObjects: 4.177500 ms  DeleteObjects: 0.111800 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/scripts/Deck.cs
+  artifactKey: Guid(85437dfcd230b8e468d098a0d9d44aa3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/scripts/Deck.cs using Guid(85437dfcd230b8e468d098a0d9d44aa3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c58e7084e5cd46d348fc1a7767fb470') in 0.048523 seconds
+  Import took 0.053274 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 875.368102 seconds.
+  path: Assets/scripts/Deck.cs
+  artifactKey: Guid(85437dfcd230b8e468d098a0d9d44aa3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/scripts/Deck.cs using Guid(85437dfcd230b8e468d098a0d9d44aa3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '63a5a7e69b6426979854939ab38b8581') in 0.002678 seconds
+  Import took 0.005403 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 422.210298 seconds.
+  path: Assets/scripts/Deck.cs
+  artifactKey: Guid(85437dfcd230b8e468d098a0d9d44aa3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/scripts/Deck.cs using Guid(85437dfcd230b8e468d098a0d9d44aa3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '83bab3a9cbbb9636dbce1cf464bfa851') in 0.002930 seconds
+  Import took 0.005837 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file

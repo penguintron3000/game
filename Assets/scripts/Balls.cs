@@ -24,6 +24,7 @@ public class Balls : MonoBehaviour {
 		SetCoords ();
 
 		this.GetComponent<SpriteRenderer> ().sprite = Player;
+		InitiateMove ();
 	}
 
     private void Update()
@@ -73,7 +74,7 @@ public class Balls : MonoBehaviour {
     private void OnMouseUp()
     {
         DestroyMove();
-
+		
 		if (!cancel)
 		{
             InitiateMove();
@@ -82,6 +83,7 @@ public class Balls : MonoBehaviour {
 		{
 			cancel = false;
 		}
+		
     }
 
     public void DestroyMove()
