@@ -113,4 +113,12 @@ public class Deck: MonoBehaviour
     {
 
     }
+
+    /**
+     * turn our deck from a queue to an array, remove first card on draw, add discarded into first slot and shuffle
+     */
+    public void Shuffle()
+    {
+
+    }
 }

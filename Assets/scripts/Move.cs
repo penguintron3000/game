@@ -16,7 +16,7 @@ public class Move : MonoBehaviour {
 
 	public bool attack = false;
 
-	public bool validMove = true;
+	public bool validMove = false;
 
 	public void Start(){
 		if (attack) {
@@ -34,7 +34,7 @@ public class Move : MonoBehaviour {
 			hand.Draw(hand.getIndex());
 			hand.cardSelected = false;
 			reference.GetComponent<Balls>().setType("");
-
+			//reference.GetComponent<Balls>().InitiateMove();
         }
 
 		if (validMove)
@@ -48,6 +48,8 @@ public class Move : MonoBehaviour {
             controller.GetComponent<Game>().SetPosition(reference);
 
             reference.GetComponent<Balls>().DestroyMove();
+
+            reference.GetComponent<Balls>().InitiateMove();
         }
 
     }

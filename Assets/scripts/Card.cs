@@ -72,7 +72,7 @@ public class Card : MonoBehaviour
 
             Hand.selectedCardToDestroy = this;
 
-            //Player.GetComponent<Balls>().InitiateMove();
+            Player.GetComponent<Balls>().InitiateMove();
         }
         else if(Hand.selectedCardToDestroy == this)
         {
@@ -87,7 +87,7 @@ public class Card : MonoBehaviour
 
             Hand.cardSelected = false;
             Hand.selectedCardToDestroy = null;
-            //Player.GetComponent<Balls>().DestroyMove();
+            Player.GetComponent<Balls>().DestroyMove();
         }
         else
         {
@@ -107,8 +107,8 @@ public class Card : MonoBehaviour
             Hand.cardSelected = true;
 
             Hand.selectedCardToDestroy = this;
-            //Player.GetComponent<Balls>().DestroyMove();
-            //Player.GetComponent<Balls>().InitiateMove();
+            Player.GetComponent<Balls>().DestroyMove();
+            Player.GetComponent<Balls>().InitiateMove();
         }
 
     }

@@ -40,6 +40,10 @@ public class Game : MonoBehaviour {
                 SetPositionEmpty(i, j);
             }
         }
+        System.Random r = new System.Random();
+
+        tiles = CreateTiles(r);
+        SetPositionTiles(tiles);
 
         Player = Create ("Player", 0, 0); //also creates deck here
 		Player.GetComponent<Deck>().setPlayer(Player);
@@ -48,12 +52,9 @@ public class Game : MonoBehaviour {
         Player.GetComponent<Deck>().setHand(Player.GetComponent<Hand>());
         Player.GetComponent<Deck>().Activate();
 
-        System.Random r  = new System.Random ();
-		tiles = CreateTiles(r);
 
 
 		SetPosition (Player);
-		SetPositionTiles (tiles);
 	}
 	
 	// Update is called once per frame

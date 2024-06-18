@@ -18,6 +18,8 @@ public class Balls : MonoBehaviour {
 
 	public string type;
 
+	private int count = 0;
+
 	public void Activate(){
 		controller = GameObject.FindGameObjectWithTag("GameController");
 
@@ -29,7 +31,13 @@ public class Balls : MonoBehaviour {
 
     private void Update()
     {
-		InitiateMove();
+		/**
+        if (count < 1)
+        {
+			InitiateMove();
+			count++;
+        }
+		*/
     }
     public void SetCoords(){
 		float x = this.x;
@@ -93,6 +101,7 @@ public class Balls : MonoBehaviour {
         {
             Destroy(movePlates[i]);
         }
+		count = 0;
     }
 
     public void InitiateMove()
