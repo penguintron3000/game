@@ -18,15 +18,28 @@ public class Balls : MonoBehaviour {
 
 	public string type;
 
+	private int count = 0;
+
 	public void Activate(){
 		controller = GameObject.FindGameObjectWithTag("GameController");
 
 		SetCoords ();
 
 		this.GetComponent<SpriteRenderer> ().sprite = Player;
+		InitiateMove ();
 	}
 
-	public void SetCoords(){
+    private void Update()
+    {
+		/**
+        if (count < 1)
+        {
+			InitiateMove();
+			count++;
+        }
+		*/
+    }
+    public void SetCoords(){
 		float x = this.x;
 		float y = this.y;
 
@@ -69,7 +82,7 @@ public class Balls : MonoBehaviour {
     private void OnMouseUp()
     {
         DestroyMove();
-
+		
 		if (!cancel)
 		{
             InitiateMove();
@@ -78,6 +91,7 @@ public class Balls : MonoBehaviour {
 		{
 			cancel = false;
 		}
+		
     }
 
     public void DestroyMove()
@@ -87,6 +101,7 @@ public class Balls : MonoBehaviour {
         {
             Destroy(movePlates[i]);
         }
+		count = 0;
     }
 
     public void InitiateMove()
@@ -129,7 +144,7 @@ public class Balls : MonoBehaviour {
 
 	public void InitiateMoveSurround()
 	{
-		PointMove(x, y);
+		//PointMove(x, y);
 		PointMove(x, y + 1);
         PointMove(x, y - 1);
         PointMove(x + 1, y + 1);
@@ -157,8 +172,8 @@ public class Balls : MonoBehaviour {
 				if (xL != x || yL != y)
 				{
                     sqType = obj.GetComponent<Square>().getType();
-					print(sqType + " enemy");
-					print(type);
+					//print(sqType + " enemy");
+					//print(type);
                 }
 				if((sqType.Equals("fire") && this.type.Equals("water")) || (sqType.Equals("grass") && this.type.Equals("fire")) || (sqType.Equals("water") && this.type.Equals("grass"))){
                     MoveAttackSpawn(xL, yL);

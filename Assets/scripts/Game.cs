@@ -18,12 +18,18 @@ public class Game : MonoBehaviour {
 
     public GameObject[] cards = new GameObject[4];
 
-	public Card selectedCardToDestroy;
-	public GameObject ObjectCardToDestroy;
+	private Hand hand;
 
-	public bool cardSelected = false;
-
+	public Deck deck;
+	
 	private bool gameOver = false;
+
+	public Canvas canvas;
+
+	[SerializeField]
+	private Transform squareParant;
+
+	private int interval = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -35,85 +41,31 @@ public class Game : MonoBehaviour {
                 SetPositionEmpty(i, j);
             }
         }
+        System.Random r = new System.Random();
 
-        Player = Create ("Player", 0, 0);
+        tiles = CreateTiles(r);
+        SetPositionTiles(tiles);
 
-		System.Random r  = new System.Random ();
-		tiles = CreateTiles(r);
+        Player = Create ("Player", 0, 0); //also creates deck here
+		Player.GetComponent<Deck>().setPlayer(Player);
+		Player.GetComponent<Deck>().cardObject = Card;
+        Player.GetComponent<Deck>().setCanvas(canvas);
+        Player.GetComponent<Deck>().setHand(Player.GetComponent<Hand>());
+        Player.GetComponent<Deck>().Activate();
 
-		cards = CreateCards(r);
+
 
 		SetPosition (Player);
-		SetPositionTiles (tiles);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(selectedCardToDestroy != null)
+		if(Time.time >= interval)
 		{
-			for (int i = 0; i < 4; i++)
-			{
-				if (cards[i].GetComponent<Card>().Equals(selectedCardToDestroy))
-				{
-					ObjectCardToDestroy = cards[i];
-				}
-			}
+			interval = Mathf.FloorToInt(Time.time) + 1;
+			moveDown();
 		}
-
-
-		System.Random r = new System.Random();
-        for (int i = 0; i < 4; i++)
-        {
-			if (cards[i] == null)
-			{
-                int rGen = r.Next(0, 3);
-                GameObject obj = Instantiate(Card, new Vector3(0, 0, -1), Quaternion.identity);
-
-                cards[i] = obj;
-
-                Card card = obj.GetComponent<Card>();
-
-                card.setReference(Player);
-
-                switch (rGen)
-                {
-                    case 0: card.type = "fire"; break;
-                    case 1: card.type = "grass"; break;
-                    case 2: card.type = "water"; break;
-                }
-                card.setX(5);
-                card.setY(i);
-                card.Activate();
-            }
-        }
     }
-
-	GameObject[] CreateCards(System.Random r)
-	{
-		GameObject[] c = new GameObject[4];
-		for (int i = 0; i < 4; i++)
-		{
-			int rGen = r.Next(0, 3);
-			GameObject obj = Instantiate(Card, new Vector3(0, 0, -1), Quaternion.identity);
-
-			c[i] = obj;
-
-			Card card = obj.GetComponent<Card>();
-
-			card.setReference(Player);
-
-			switch (rGen)
-			{
-				case 0: card.type = "fire"; break;
-				case 1: card.type = "grass"; break;
-				case 2: card.type = "water"; break;
-			}
-			card.setX(5);
-			card.setY(i);
-			card.Activate();
-		}
-		return c;
-	}
 
 	GameObject[,] CreateTiles(System.Random r)
 	{
@@ -132,7 +84,8 @@ public class Game : MonoBehaviour {
 					GameObject obj = null;
 					if(rGen != 0)
 					{
-                        obj = Instantiate(Square, new Vector3(0, 0, -1), Quaternion.identity);
+                       obj = Instantiate(Square, new Vector3(0, 0, -1), Quaternion.identity, squareParant);
+                        //obj = Instantiate(Square, new Vector3(0, 0, -1), Quaternion.identity);
                     }
 					t[i, j] = obj;
 
@@ -161,7 +114,10 @@ public class Game : MonoBehaviour {
 	GameObject Create(string name, int x, int y){
 		GameObject obj = Instantiate (Player, new Vector3 (0, 0, -1), Quaternion.identity);
 		Balls handler = obj.GetComponent<Balls> ();
-		handler.name = name;
+		obj.AddComponent<Deck>();
+		deck = obj.GetComponent<Deck> ();
+        obj.AddComponent<Hand>();
+        handler.name = name;
 		handler.setX (x);
 		handler.setY (y);
 		handler.Activate ();
@@ -205,6 +161,30 @@ public class Game : MonoBehaviour {
 		return true;
 	}
 
+	public void moveDown()
+	{
+		for (int i = 7; i > -1; i--)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (i == 7)
+				{
+                    Destroy(positions[i, j]);
+                    Destroy(tiles[i, j]);
+                }
+				if(i == 0)
+				{
 
+				}
+				else
+				{
+                    positions[i, j] = positions[i - 1, j];
+					positions[i, j].transform.position = positions[i, j].transform.position + new Vector3(1, 1, 0);
+                    tiles[i, j] = tiles[i - 1, j];
+                }
+			} //NOTE TO SELF MUST DO IT IN CLASSES TO CHANGE POSITION HAVE THEM EACH MOVE DOWN IN THEIR RESPECTIVE UPDATES; FOR EXAMPLE LOOK AT MOVE>CS IF U WANT TO MOVE PLAYER
+		}
+		Debug.Log("hi");
+	}
 
 }

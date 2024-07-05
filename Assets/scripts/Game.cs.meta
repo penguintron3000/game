@@ -7,7 +7,9 @@ MonoImporter:
   - Player: {fileID: 1968482687567886, guid: 7d91fcf84f8c8a14bbf92f4fac74bdd1, type: 3}
   - Square: {fileID: 6983442889450872895, guid: 567105dd10c2355469bc392decbc70b3,
       type: 3}
-  - Card: {fileID: 1284507932879652812, guid: da02d0c241761324c919c3d1cfb7c0f9, type: 3}
+  - Card: {fileID: 5786325072097205021, guid: 09de011d2f839c842a21c007341f84de, type: 3}
+  - selectedCardToDestroy: {instanceID: 0}
+  - ObjectCardToDestroy: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

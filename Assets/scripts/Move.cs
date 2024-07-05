@@ -7,6 +7,11 @@ public class Move : MonoBehaviour {
 
 	public GameObject controller;
 
+	public GameObject mana;
+	public ManaManager manaManager;
+
+	public Hand hand;
+
 	GameObject reference = null;
 
 	int boardX;
@@ -14,24 +19,28 @@ public class Move : MonoBehaviour {
 
 	public bool attack = false;
 
-	public bool validMove = true;
+	public bool validMove = false;
 
 	public void Start(){
-		if (attack) {
+		mana = GameObject.FindGameObjectWithTag("Mana");
+		manaManager = mana.GetComponent<ManaManager>();
+		if (attack || validMove) {
 			gameObject.GetComponent<SpriteRenderer> ().color = new Color (0, 1, 0, 1);
 		}
 	}
 
 	public void OnMouseUp(){
 		controller = GameObject.FindGameObjectWithTag ("GameController");
+		hand = reference.GetComponent<Hand>();
 
 		if (attack && !(boardX == reference.GetComponent<Balls>().getX() && boardY == reference.GetComponent<Balls>().getY())) {
 			GameObject tileObject = controller.GetComponent<Game> ().GetPosition (boardX, boardY);
 			Destroy (tileObject);
-			Destroy(controller.GetComponent<Game>().ObjectCardToDestroy);
-			controller.GetComponent<Game>().cardSelected = false;
+			hand.Draw(hand.getIndex());
+			hand.cardSelected = false;
 			reference.GetComponent<Balls>().setType("");
-
+			//reference.GetComponent<Balls>().InitiateMove();
+			manaManager.spend(5);
         }
 
 		if (validMove)
@@ -45,6 +54,8 @@ public class Move : MonoBehaviour {
             controller.GetComponent<Game>().SetPosition(reference);
 
             reference.GetComponent<Balls>().DestroyMove();
+
+            reference.GetComponent<Balls>().InitiateMove();
         }
 
     }
