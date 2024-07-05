@@ -7,6 +7,9 @@ public class Move : MonoBehaviour {
 
 	public GameObject controller;
 
+	public GameObject mana;
+	public ManaManager manaManager;
+
 	public Hand hand;
 
 	GameObject reference = null;
@@ -19,7 +22,9 @@ public class Move : MonoBehaviour {
 	public bool validMove = false;
 
 	public void Start(){
-		if (attack) {
+		mana = GameObject.FindGameObjectWithTag("Mana");
+		manaManager = mana.GetComponent<ManaManager>();
+		if (attack || validMove) {
 			gameObject.GetComponent<SpriteRenderer> ().color = new Color (0, 1, 0, 1);
 		}
 	}
@@ -35,6 +40,7 @@ public class Move : MonoBehaviour {
 			hand.cardSelected = false;
 			reference.GetComponent<Balls>().setType("");
 			//reference.GetComponent<Balls>().InitiateMove();
+			manaManager.spend(5);
         }
 
 		if (validMove)

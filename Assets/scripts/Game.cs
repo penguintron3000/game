@@ -29,6 +29,7 @@ public class Game : MonoBehaviour {
 	[SerializeField]
 	private Transform squareParant;
 
+	private int interval = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -59,7 +60,11 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(Time.time >= interval)
+		{
+			interval = Mathf.FloorToInt(Time.time) + 1;
+			moveDown();
+		}
     }
 
 	GameObject[,] CreateTiles(System.Random r)
@@ -156,6 +161,30 @@ public class Game : MonoBehaviour {
 		return true;
 	}
 
+	public void moveDown()
+	{
+		for (int i = 7; i > -1; i--)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				if (i == 7)
+				{
+                    Destroy(positions[i, j]);
+                    Destroy(tiles[i, j]);
+                }
+				if(i == 0)
+				{
 
+				}
+				else
+				{
+                    positions[i, j] = positions[i - 1, j];
+					positions[i, j].transform.position = positions[i, j].transform.position + new Vector3(1, 1, 0);
+                    tiles[i, j] = tiles[i - 1, j];
+                }
+			} //NOTE TO SELF MUST DO IT IN CLASSES TO CHANGE POSITION HAVE THEM EACH MOVE DOWN IN THEIR RESPECTIVE UPDATES; FOR EXAMPLE LOOK AT MOVE>CS IF U WANT TO MOVE PLAYER
+		}
+		Debug.Log("hi");
+	}
 
 }

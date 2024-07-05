@@ -11,7 +11,14 @@ public class Card : MonoBehaviour
     int boardX = -1;
     int boardY = -1;
 
+    //card data
     public string type; //fire grass water
+    public List<int[]> movement;
+    public List<int[]> coverage;
+    public int draw;
+    public int cost;
+    public int id;
+    public string name;
 
     public Sprite card;
 
@@ -88,6 +95,7 @@ public class Card : MonoBehaviour
             Hand.cardSelected = false;
             Hand.selectedCardToDestroy = null;
             Player.GetComponent<Balls>().DestroyMove();
+            Player.GetComponent<Balls>().InitiateMove();
         }
         else
         {

@@ -144,7 +144,7 @@ public class Balls : MonoBehaviour {
 
 	public void InitiateMoveSurround()
 	{
-		PointMove(x, y);
+		//PointMove(x, y);
 		PointMove(x, y + 1);
         PointMove(x, y - 1);
         PointMove(x + 1, y + 1);
@@ -172,8 +172,8 @@ public class Balls : MonoBehaviour {
 				if (xL != x || yL != y)
 				{
                     sqType = obj.GetComponent<Square>().getType();
-					print(sqType + " enemy");
-					print(type);
+					//print(sqType + " enemy");
+					//print(type);
                 }
 				if((sqType.Equals("fire") && this.type.Equals("water")) || (sqType.Equals("grass") && this.type.Equals("fire")) || (sqType.Equals("water") && this.type.Equals("grass"))){
                     MoveAttackSpawn(xL, yL);
