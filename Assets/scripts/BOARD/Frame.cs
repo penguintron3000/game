@@ -12,7 +12,8 @@ public class Frame : MonoBehaviour
     public GameObject body;
     public int numBody;
     RectTransform rectTransform;
-    private int interval = 2;
+    private int interval = 130;
+    int count = 0;
     Vector3 anchor;
 
     public List<GameObject> rows;
@@ -28,12 +29,14 @@ public class Frame : MonoBehaviour
         }
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
+        count++;
         rectTransform.localPosition += new Vector3(0, -1, 0);
-        if (Time.time >= interval)
+        if (count >= interval)
         {
-            interval = Mathf.FloorToInt(Time.time) + 1;
+            //interval = Mathf.FloorToInt(Time.time) + interval;
+            count = 0;
             rectTransform.localPosition = anchor;
 
             shiftRows();
