@@ -70,16 +70,16 @@ public class Card : MonoBehaviour
 
             switch (this.type)
             {
-                case "fire": Player.GetComponent<Balls>().setType("fire"); break;
-                case "grass": Player.GetComponent<Balls>().setType("grass"); break;
-                case "water": Player.GetComponent<Balls>().setType("water"); break;
+                case "fire": Player.GetComponent<Player>().setType("fire"); break;
+                case "grass": Player.GetComponent<Player>().setType("grass"); break;
+                case "water": Player.GetComponent<Player>().setType("water"); break;
             }
 
             Hand.cardSelected = true;
 
             Hand.selectedCardToDestroy = this;
 
-            Player.GetComponent<Balls>().InitiateMove();
+            Player.GetComponent<Player>().InitiateMove();
         }
         else if(Hand.selectedCardToDestroy == this)
         {
@@ -90,12 +90,12 @@ public class Card : MonoBehaviour
                 case "water": this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
             }
 
-            Player.GetComponent<Balls>().setType("");
+            Player.GetComponent<Player>().setType("");
 
             Hand.cardSelected = false;
             Hand.selectedCardToDestroy = null;
-            Player.GetComponent<Balls>().DestroyMove();
-            Player.GetComponent<Balls>().InitiateMove();
+            Player.GetComponent<Player>().DestroyMove();
+            Player.GetComponent<Player>().InitiateMove();
         }
         else
         {
@@ -110,13 +110,13 @@ public class Card : MonoBehaviour
                 case "water": pastTarget.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
             }
 
-            Player.GetComponent<Balls>().setType(type);
+            Player.GetComponent<Player>().setType(type);
 
             Hand.cardSelected = true;
 
             Hand.selectedCardToDestroy = this;
-            Player.GetComponent<Balls>().DestroyMove();
-            Player.GetComponent<Balls>().InitiateMove();
+            Player.GetComponent<Player>().DestroyMove();
+            Player.GetComponent<Player>().InitiateMove();
         }
 
     }

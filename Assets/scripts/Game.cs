@@ -29,7 +29,7 @@ public class Game : MonoBehaviour {
 	[SerializeField]
 	private Transform squareParant;
 
-	private int interval = 1;
+	private int interval =5;
 
 	// Use this for initialization
 	void Start () {
@@ -60,11 +60,13 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		/*
 		if(Time.time >= interval)
 		{
 			interval = Mathf.FloorToInt(Time.time) + 1;
 			moveDown();
 		}
+		*/
     }
 
 	GameObject[,] CreateTiles(System.Random r)
@@ -82,14 +84,14 @@ public class Game : MonoBehaviour {
 				{
                     int rGen = r.Next(0, 4);
 					GameObject obj = null;
-					if(rGen != 0)
+					if(rGen != 5)
 					{
                        obj = Instantiate(Square, new Vector3(0, 0, -1), Quaternion.identity, squareParant);
                         //obj = Instantiate(Square, new Vector3(0, 0, -1), Quaternion.identity);
                     }
 					t[i, j] = obj;
 
-					if(rGen != 0)
+					if(rGen != 5)
 					{
                         Square s = obj.GetComponent<Square>();
 						rGen = r.Next(0, 3);
@@ -113,7 +115,7 @@ public class Game : MonoBehaviour {
 
 	GameObject Create(string name, int x, int y){
 		GameObject obj = Instantiate (Player, new Vector3 (0, 0, -1), Quaternion.identity);
-		Balls handler = obj.GetComponent<Balls> ();
+		Player handler = obj.GetComponent<Player> ();
 		obj.AddComponent<Deck>();
 		deck = obj.GetComponent<Deck> ();
         obj.AddComponent<Hand>();
@@ -126,7 +128,7 @@ public class Game : MonoBehaviour {
 
 	public void SetPosition(GameObject obj){
 
-		Balls handler = obj.GetComponent<Balls> ();
+		Player handler = obj.GetComponent<Player> ();
 		
 		positions [handler.getX (), handler.getY ()] = obj;
 
@@ -163,14 +165,20 @@ public class Game : MonoBehaviour {
 
 	public void moveDown()
 	{
+		int count = 0;
 		for (int i = 7; i > -1; i--)
 		{
-			for (int j = 0; j < 8; j++)
+			int x = 0;
+			int y = 0;
+            for (int j = 0; j < 8; j++)
 			{
-				if (i == 7)
+                if (i == 7)
 				{
+                    x = tiles[i, j].GetComponent<Square>().getX();
+                    y = tiles[i, j].GetComponent<Square>().getY();
                     Destroy(positions[i, j]);
                     Destroy(tiles[i, j]);
+					Debug.Log(count++);
                 }
 				if(i == 0)
 				{
@@ -179,10 +187,20 @@ public class Game : MonoBehaviour {
 				else
 				{
                     positions[i, j] = positions[i - 1, j];
-					positions[i, j].transform.position = positions[i, j].transform.position + new Vector3(1, 1, 0);
-                    tiles[i, j] = tiles[i - 1, j];
+					positions[i, j].transform.position = positions[i - 1, j].transform.position;
+                    //positions[i, j].transform.position = positions[i, j].transform.position + new Vector3(1, 1, 0);
+                    int subx = tiles[i - 1, j].GetComponent<Square>().getX();
+                    int suby = tiles[i - 1, j].GetComponent<Square>().getY();
+                    tiles[i - 1, j].GetComponent<Square>().setX(x);
+                    tiles[i - 1, j].GetComponent<Square>().setY(y);
+                    tiles[i - 1, j].GetComponent<Square>().SetCoords();
+					x = subx;
+					y = suby;
+                    //tiles[i, j].transform.position = tiles[i - 1, j].transform.position;
+					//Debug.Log(count++);
                 }
 			} //NOTE TO SELF MUST DO IT IN CLASSES TO CHANGE POSITION HAVE THEM EACH MOVE DOWN IN THEIR RESPECTIVE UPDATES; FOR EXAMPLE LOOK AT MOVE>CS IF U WANT TO MOVE PLAYER
+			//NEW NOTE USE THE SETCOORDS FUNCTION AND GETCOMPONENT
 		}
 		Debug.Log("hi");
 	}

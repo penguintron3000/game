@@ -27,8 +27,8 @@ public class Square : MonoBehaviour
             case "fire": this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
             case "grass": this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
             case "water": this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+            default: this.GetComponent<SpriteRenderer>().color = new Color(.3f, .3f, .4f, 1); break;
         }
-
         this.GetComponent<SpriteRenderer>().sprite = square;
     }
 
