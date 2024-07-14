@@ -6,13 +6,15 @@ public class Unit : MonoBehaviour
 {
 
     public Sprite unit;
+    private static System.Random random = new System.Random();
+
 
     public void initialize()
     {
         this.GetComponent<SpriteRenderer>().sprite = unit;
-        System.Random r = new System.Random();
-        int random = r.Next(0, 3);
-        switch (random)
+        //System.Random r = new System.Random();
+        int rand = random.Next(0, 3);
+        switch (rand)
         {
             case 1: this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
             case 0: this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
@@ -23,7 +25,7 @@ public class Unit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        initialize();
     }
 
     // Update is called once per frame
