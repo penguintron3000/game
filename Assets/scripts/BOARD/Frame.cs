@@ -13,7 +13,6 @@ public class Frame : MonoBehaviour
     public int numBody;
     RectTransform rectTransform;
     private int interval = 130;
-    int count = 0;
     Vector3 anchor;
 
     public List<GameObject> rows;
@@ -27,19 +26,27 @@ public class Frame : MonoBehaviour
             rows.Add(img);
             //img.GetComponent<FlexGridRow>().parent = frame;
         }
+
+        StartCoroutine(updatePosition());
     }
 
     public void FixedUpdate()
     {
-        count++;
-        rectTransform.localPosition += new Vector3(0, -1, 0);
-        if (count >= interval)
-        {
-            //interval = Mathf.FloorToInt(Time.time) + interval;
-            count = 0;
-            rectTransform.localPosition = anchor;
 
-            shiftRows();
+    }
+
+    private IEnumerator updatePosition()
+    {
+        while (true)
+        {
+            rectTransform.localPosition += new Vector3(0, -1f, 0);
+            if (rectTransform.localPosition.y < 10f)
+            {
+                rectTransform.localPosition = anchor;
+
+                shiftRows();
+            }
+            yield return null;
         }
     }
 
