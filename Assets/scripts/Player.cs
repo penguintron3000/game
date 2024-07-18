@@ -29,8 +29,8 @@ public class Player : MonoBehaviour {
 		InitiateMove ();
 	}
 
-    private void Update()
-    {
+	private void Update()
+	{
 		/**
         if (count < 1)
         {
@@ -38,7 +38,9 @@ public class Player : MonoBehaviour {
 			count++;
         }
 		*/
-    }
+	}
+
+	
     public void SetCoords(){
 		float x = this.x;
 		float y = this.y;
@@ -52,6 +54,7 @@ public class Player : MonoBehaviour {
 		this.transform.position = new Vector3 (x, y, -1.0f);
 
 	}
+	
 
 	public void setType(string s)
 	{

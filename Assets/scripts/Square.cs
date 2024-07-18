@@ -42,6 +42,7 @@ public class Square : MonoBehaviour
         return type;
     }
 
+    
     public void SetCoords()
     {
         float x = boardX;
@@ -56,6 +57,7 @@ public class Square : MonoBehaviour
         this.transform.position = new Vector3(x, y, -1.0f);
 
     }
+    
 
     public void setX(int x)
     {

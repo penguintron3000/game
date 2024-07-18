@@ -162,7 +162,7 @@ public class Game : MonoBehaviour {
 		}
 		return true;
 	}
-
+	/*
 	public void moveDown()
 	{
 		int count = 0;
@@ -204,5 +204,6 @@ public class Game : MonoBehaviour {
 		}
 		Debug.Log("hi");
 	}
+	*/
 
 }
