@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 public class Frame : MonoBehaviour
@@ -11,23 +12,29 @@ public class Frame : MonoBehaviour
     public GameObject frame;
     public GameObject body;
     public int numBody;
+    public int numUnitsPerBody;
     RectTransform rectTransform;
     private int interval = 130;
     Vector3 anchor;
 
-    int playerTrackerRow = 0;
-    int playerTrackerCol = 0;
+    int playerRow = 1;
+    int playerCol = 4;
 
     public List<GameObject> rows;
 
     public Unit[,] grid;
+    private int numReady = 0;
+
+    private int removeMove = 0;
 
     public void Start()
     {
         rectTransform = GetComponent<RectTransform>();
         anchor = rectTransform.localPosition;
 
-        int numUnitsPerRow = 0;
+
+        grid = new Unit[numBody, numUnitsPerBody];
+        removeMove = numBody;
 
         for (int i = 0; i < numBody; i++)
         {
@@ -37,12 +44,11 @@ public class Frame : MonoBehaviour
                 img.GetComponent<Body>().initializePlayer();
             }
             rows.Add(img);
-            numUnitsPerRow = img.GetComponent<Body>().numUnits();
+            img.GetComponent<Body>().setParent(this);
+            img.GetComponent<Body>().initialize();
             //img.GetComponent<FlexGridRow>().parent = frame;
         }
-
-        grid = new Unit[numBody, numUnitsPerRow];
-        createGrid();
+        //createGrid();
 
         StartCoroutine(updatePosition());
     }
@@ -73,7 +79,49 @@ public class Frame : MonoBehaviour
             rows[i].transform.localPosition = lcl;
             lcl = slcl;
         }
+        removeMove -= 1;
+        if(removeMove < 0)
+        {
+            removeMove = numBody - 1;
+        }
+        GameObject remove = rows[removeMove];
+        remove.GetComponent<Body>().DestroyMove();
         last.transform.localPosition = lcl;
+    }
+
+    public void DestroyAllMove(int row, int col)
+    {
+        int minRow = row - 1;
+        if (minRow < 0)
+        {
+            minRow = 0;
+        }
+        int maxRow = row + 1;
+        if (maxRow > numBody)
+        {
+            maxRow = numBody;
+        }
+        int minCol = col - 1;
+        if (minCol < 0)
+        {
+            minCol = 0;
+        }
+        int maxCol = col + 1;
+        if (maxCol > numUnitsPerBody)
+        {
+            maxCol = numUnitsPerBody;
+        }
+        for (int i = minRow; i < maxRow + 1; i++)
+        {
+            for (int j = minCol; j < maxCol + 1; j++)
+            {
+                if (i == row && j == col)
+                {
+                    continue;
+                }
+                grid[i, j].DestroyMove();
+            }
+        }
     }
 
     private IEnumerator updatePosition()
@@ -103,6 +151,63 @@ public class Frame : MonoBehaviour
         {
             rows[i].GetComponent<Body>().buildGrid(grid, i);
         }
+        createMove(playerRow, numUnitsPerBody/2);
+    }
+
+    public void createMove(int row, int col)
+    {
+        int minRow = row - 1;
+        if(minRow < 0)
+        {
+            minRow = 0;
+        }
+        int maxRow = row + 1;
+        if(maxRow > numBody)
+        {
+            maxRow = numBody;
+        }
+        int minCol = col - 1;
+        if(minCol < 0)
+        {
+            minCol = 0;
+        }
+        int maxCol = col + 1;
+        if(maxCol > numUnitsPerBody)
+        {
+            maxCol = numUnitsPerBody;
+        }
+        for(int i = minRow; i < maxRow + 1; i++)
+        {
+            int moveX = 0;
+            if (i == row - 1)
+            {
+                moveX = -1;
+            }
+            if (i == row + 1)
+            {
+                moveX = 1;
+            }
+
+            for (int j = minCol; j < maxCol + 1; j++)
+            {
+                if(i == row && j == col)
+                {
+                    continue;
+                }
+                grid[i, j].addMove();
+                int moveY = 0;
+               
+                if(j == col - 1)
+                {
+                    moveY = -1;
+                }
+                if(j == col + 1)
+                {
+                    moveY = 1;
+                }
+                grid[i, j].setDirections(moveX, moveY);
+            }
+        }
     }
 
     public void updateMoveTiles()
@@ -115,4 +220,16 @@ public class Frame : MonoBehaviour
             }
         }
     }
+
+    public void incrementNumReady()
+    {
+        numReady++;
+    }
+
+    public int getNumReady()
+    {
+        return numReady;
+    }
+
+
 }

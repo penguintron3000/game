@@ -26,6 +26,13 @@ public class Unit : MonoBehaviour
     public GameObject player;
     private bool playerInit = false;
 
+    private Body parent;
+
+    public GameObject move;
+    public bool hasMove = false;
+
+    private Frame grandparent;
+
     public void initialize()
     {
         this.GetComponent<SpriteRenderer>().sprite = unit;
@@ -42,11 +49,12 @@ public class Unit : MonoBehaviour
         {
             this.GetComponent<SpriteRenderer>().color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
         }
+        parent.incrementNumReady();
     }
     // Start is called before the first frame update
     void Start()
     {
-        initialize();
+        //initialize();
     }
 
     // Update is called once per frame
@@ -59,5 +67,65 @@ public class Unit : MonoBehaviour
     {
         player = Instantiate(player, new Vector3(0, 0, -2), Quaternion.identity, this.transform);
         playerInit = true;
+    }
+
+    public void setParent(Body parent)
+    {
+        this.parent = parent;
+    }
+
+    public void addMove()
+    {
+        move = Instantiate(move, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
+        //move.GetComponent<RectTransform>().localPosition = GetComponent<RectTransform>().localPosition;
+        hasMove = true;
+    }
+
+    public void DestroyMove()
+    {
+        if(hasMove)
+        {
+            Destroy(move);
+        }
+        hasMove = false;
+    }
+
+    public void movePlayer(Unit target)
+    {
+        target.setPlayer(player);
+        this.player = null;
+    }
+
+    public void setPlayer(GameObject player)
+    {
+        this.player = player;
+    }
+
+    public void OnMouseUp()
+    {
+        if (hasMove)
+        {
+            Debug.Log("click");
+        }
+    }
+
+    public void setDirections(int x, int y)
+    {
+        moveDirectionX = x; moveDirectionY = y;
+    }
+
+    public int getDirectionX()
+    {
+        return moveDirectionX;
+    }
+
+    public int getDirectionY()
+    {
+        return moveDirectionY;
+    }
+
+    public void setFrame(Frame frame)
+    {
+        grandparent = frame;
     }
 }

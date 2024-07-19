@@ -11,15 +11,17 @@ public class Body : MonoBehaviour
     Boolean initPlayer = false;
     public GameObject player;
     public Unit[] units;
+
+    private Frame parent;
+    private int numReady = 0;
     public void Start()
+    {
+    }
+
+    public void initialize()
     {
         units = new Unit[numImage];
         StartCoroutine(delayedCreateImages());
-    }
-
-    public void Update()
-    {
-
     }
 
     private IEnumerator delayedCreateImages()
@@ -36,10 +38,12 @@ public class Body : MonoBehaviour
                 img.GetComponent<Unit>().createPlayer();
             }
             units[i] = (img.GetComponent<Unit>());
-            
+            img.GetComponent<Unit>().setParent(this);
+            img.GetComponent<Unit>().initialize();
+            img.GetComponent<Unit>().setFrame(parent);
             //img.GetComponent<Unit>().initialize(random);
-        }
 
+        }
         // yield break;  // if this is the last statement, you do not have to put yield break here.
     }
 
@@ -53,7 +57,7 @@ public class Body : MonoBehaviour
         int rows = grid.GetLength(0);
         int cols = grid.GetLength(1);
         int balls = 5;
-        Debug.Log(rows + " " + cols);
+        //Debug.Log(rows + " " + cols);
         for(int i  = 0; i < numImage; i++)
         {
             grid[index, i] = units[i];
@@ -63,5 +67,31 @@ public class Body : MonoBehaviour
     public int numUnits()
     {
         return numImage;
+    }
+
+    public void setParent(Frame frame)
+    {
+        this.parent = frame;
+    }
+
+    public void incrementNumReady()
+    {
+        numReady++;
+        if (numReady >= numImage)
+        {
+            numReady %= numImage;
+            parent.incrementNumReady();
+            if (parent.getNumReady() >= parent.numBody)
+            {
+                parent.createGrid();
+            }
+        }
+    }
+    public void DestroyMove()
+    {
+        for(int i = 0; i < units.Length; i++)
+        {
+            units[i].DestroyMove();
+        }
     }
 }
