@@ -27,6 +27,8 @@ public class Frame : MonoBehaviour
 
     private int removeMove = 0;
 
+    private GameObject player;
+
     public void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -151,7 +153,9 @@ public class Frame : MonoBehaviour
         {
             rows[i].GetComponent<Body>().buildGrid(grid, i);
         }
-        createMove(playerRow, numUnitsPerBody/2);
+        playerCol = numUnitsPerBody / 2;
+        createMove(playerRow, playerCol);
+        Debug.Log(playerRow + " " + playerCol);
     }
 
     public void createMove(int row, int col)
@@ -231,5 +235,24 @@ public class Frame : MonoBehaviour
         return numReady;
     }
 
+    int newTrackRow = 1;
+    int newTrackCol = 4;
 
+    public void movePlayer(Unit target)
+    {
+        DestroyAllMove(playerRow, playerCol);
+        target.setPlayer(player);
+        player.transform.SetParent(target.transform);
+        player.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, -2);
+        playerRow = (playerRow + target.getDirectionX());
+        playerCol = (playerCol + target.getDirectionY());
+        Debug.Log(newTrackRow + " " + newTrackCol);
+        //grid[playerRow, playerCol].setPlayer(null);
+        createMove(playerRow, playerCol);
+    }
+
+    public void setPlayer(GameObject player)
+    {
+        this.player = player;
+    }
 }

@@ -32,15 +32,17 @@ public class Body : MonoBehaviour
         for (int i = 0; i < numImage; i++)
         {
             // TODO: GameObject img = Instantiate(image, new Vector3(0, 0, -1), Quaternion.identity, body.transform);
+
             GameObject img = Instantiate(image, new Vector3(0, 0, -1), Quaternion.identity, this.transform);
+            img.GetComponent<Unit>().setParent(this);
+            img.GetComponent<Unit>().initialize();
+            img.GetComponent<Unit>().setFrame(parent);
             if (i == numImage / 2 && initPlayer)
             {
                 img.GetComponent<Unit>().createPlayer();
             }
             units[i] = (img.GetComponent<Unit>());
-            img.GetComponent<Unit>().setParent(this);
-            img.GetComponent<Unit>().initialize();
-            img.GetComponent<Unit>().setFrame(parent);
+            
             //img.GetComponent<Unit>().initialize(random);
 
         }

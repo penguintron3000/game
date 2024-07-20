@@ -67,6 +67,7 @@ public class Unit : MonoBehaviour
     {
         player = Instantiate(player, new Vector3(0, 0, -2), Quaternion.identity, this.transform);
         playerInit = true;
+        grandparent.setPlayer(player);
     }
 
     public void setParent(Body parent)
@@ -90,12 +91,6 @@ public class Unit : MonoBehaviour
         hasMove = false;
     }
 
-    public void movePlayer(Unit target)
-    {
-        target.setPlayer(player);
-        this.player = null;
-    }
-
     public void setPlayer(GameObject player)
     {
         this.player = player;
@@ -103,9 +98,11 @@ public class Unit : MonoBehaviour
 
     public void OnMouseUp()
     {
-        if (hasMove)
+        if (true)
         {
-            Debug.Log("click");
+            Debug.Log("click " + moveDirectionX + " " + moveDirectionY);
+            grandparent.movePlayer(this);
+            this.GetComponent<SpriteRenderer>().color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
         }
     }
 
@@ -127,5 +124,10 @@ public class Unit : MonoBehaviour
     public void setFrame(Frame frame)
     {
         grandparent = frame;
+    }
+
+    public GameObject getPlayer()
+    {
+        return player;
     }
 }
