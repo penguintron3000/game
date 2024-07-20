@@ -26,32 +26,35 @@ public class Unit : MonoBehaviour
     public GameObject player;
     private bool playerInit = false;
 
-    private Body parent;
+    private BoardRow boardRow;
 
     public GameObject move;
     public bool hasMove = false;
 
-    private Frame grandparent;
+    private Board board;
 
     public GameObject moveObject;
 
+    private SpriteRenderer spriteRenderer;
+
     public void initialize()
     {
-        this.GetComponent<SpriteRenderer>().sprite = unit;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = unit;
         //System.Random r = new System.Random();
         int rand = random.Next(0, 4);
         switch (rand)
         {
-            case 0: this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); this.type = Type.fire; break;
-            case 1: this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); this.type = Type.grass; break;
-            case 2: this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); this.type = Type.water; break;
-            default: this.GetComponent<SpriteRenderer>().color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none; break;
+            case 0: spriteRenderer.color = new Color(1, 0, 0, 1); this.type = Type.fire; break;
+            case 1: spriteRenderer.color = new Color(0, 1, 0, 1); this.type = Type.grass; break;
+            case 2: spriteRenderer.color = new Color(0, 0, 1, 1); this.type = Type.water; break;
+            default: spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none; break;
         }
         if (playerInit)
         {
-            this.GetComponent<SpriteRenderer>().color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
+            spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
         }
-        parent.incrementNumReady();
+        boardRow.ReportNumReady(this);
     }
     // Start is called before the first frame update
     void Start()
@@ -69,12 +72,12 @@ public class Unit : MonoBehaviour
     {
         player = Instantiate(player, new Vector3(0, 0, -2), Quaternion.identity, this.transform);
         playerInit = true;
-        grandparent.setPlayer(player);
+        board.setPlayer(player);
     }
 
-    public void setParent(Body parent)
+    public void setParent(BoardRow parent)
     {
-        this.parent = parent;
+        this.boardRow = parent;
     }
 
     public void addMove()
@@ -103,8 +106,8 @@ public class Unit : MonoBehaviour
         if (true)
         {
             Debug.Log("click " + moveDirectionX + " " + moveDirectionY);
-            grandparent.movePlayer(this);
-            this.GetComponent<SpriteRenderer>().color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
+            board.movePlayer(this);
+            spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
         }
     }
 
@@ -123,9 +126,9 @@ public class Unit : MonoBehaviour
         return moveDirectionY;
     }
 
-    public void setFrame(Frame frame)
+    public void setFrame(Board frame)
     {
-        grandparent = frame;
+        board = frame;
     }
 
     public GameObject getPlayer()

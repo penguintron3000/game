@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using UnityEngine;
 
-public class Frame : MonoBehaviour
+public class Board : MonoBehaviour
 {
     int spacing = 0;
     int squareSize = 0;
@@ -41,13 +39,14 @@ public class Frame : MonoBehaviour
         for (int i = 0; i < numBody; i++)
         {
             GameObject img = Instantiate(body, new Vector3(0, 0, -1), Quaternion.identity, frame.transform);
+            BoardRow boardRow = img.GetComponent<BoardRow>();
             if (i == 1)
             {
-                img.GetComponent<Body>().initializePlayer();
+                boardRow.initializePlayer();
             }
             rows.Add(img);
-            img.GetComponent<Body>().setParent(this);
-            img.GetComponent<Body>().initialize();
+            boardRow.setParent(this);
+            boardRow.initialize();
             //img.GetComponent<FlexGridRow>().parent = frame;
         }
         //createGrid();
@@ -87,7 +86,7 @@ public class Frame : MonoBehaviour
             removeMove = numBody - 1;
         }
         GameObject remove = rows[removeMove];
-        remove.GetComponent<Body>().DestroyMove();
+        remove.GetComponent<BoardRow>().DestroyMove();
         last.transform.localPosition = lcl;
     }
 
@@ -151,7 +150,7 @@ public class Frame : MonoBehaviour
     {
         for(int i = 0; i < numBody; i++)
         {
-            rows[i].GetComponent<Body>().buildGrid(grid, i);
+            rows[i].GetComponent<BoardRow>().buildGrid(grid, i);
         }
         playerCol = numUnitsPerBody / 2;
         createMove(playerRow, playerCol);
@@ -224,10 +223,15 @@ public class Frame : MonoBehaviour
             }
         }
     }
+    HashSet<Unit> checkSet = new HashSet<Unit>();
 
-    public void incrementNumReady()
+    public void CheckNumReady(Unit temp)
     {
-        numReady++;
+        checkSet.Add(temp);
+        if(checkSet.Count == numBody * numUnitsPerBody)
+        {
+            createGrid();
+        }
     }
 
     public int getNumReady()

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Body : MonoBehaviour
+public class BoardRow : MonoBehaviour
 {
     // TODO: public GameObject body;
     public GameObject image;
@@ -12,7 +12,7 @@ public class Body : MonoBehaviour
     public GameObject player;
     public Unit[] units;
 
-    private Frame parent;
+    private Board board;
     private int numReady = 0;
     public void Start()
     {
@@ -33,15 +33,16 @@ public class Body : MonoBehaviour
         {
             // TODO: GameObject img = Instantiate(image, new Vector3(0, 0, -1), Quaternion.identity, body.transform);
 
-            GameObject img = Instantiate(image, new Vector3(0, 0, -1), Quaternion.identity, this.transform);
-            img.GetComponent<Unit>().setParent(this);
-            img.GetComponent<Unit>().initialize();
-            img.GetComponent<Unit>().setFrame(parent);
+            GameObject unit = Instantiate(image, new Vector3(0, 0, -1), Quaternion.identity, this.transform);
+            Unit unitObject = unit.GetComponent<Unit>();
+            unitObject.setParent(this);
+            unitObject.initialize();
+            unitObject.setFrame(board);
             if (i == numImage / 2 && initPlayer)
             {
-                img.GetComponent<Unit>().createPlayer();
+                unitObject.createPlayer();
             }
-            units[i] = (img.GetComponent<Unit>());
+            units[i] = (unitObject);
             
             //img.GetComponent<Unit>().initialize(random);
 
@@ -71,23 +72,14 @@ public class Body : MonoBehaviour
         return numImage;
     }
 
-    public void setParent(Frame frame)
+    public void setParent(Board frame)
     {
-        this.parent = frame;
+        this.board = frame;
     }
 
-    public void incrementNumReady()
+    public void ReportNumReady(Unit temp)
     {
-        numReady++;
-        if (numReady >= numImage)
-        {
-            numReady %= numImage;
-            parent.incrementNumReady();
-            if (parent.getNumReady() >= parent.numBody)
-            {
-                parent.createGrid();
-            }
-        }
+        board.CheckNumReady(temp);
     }
     public void DestroyMove()
     {
