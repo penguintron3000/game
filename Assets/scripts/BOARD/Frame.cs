@@ -246,7 +246,7 @@ public class Frame : MonoBehaviour
         player.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, -2);
         playerRow = (playerRow + target.getDirectionX());
         playerCol = (playerCol + target.getDirectionY());
-        Debug.Log(newTrackRow + " " + newTrackCol);
+        Debug.Log(playerRow + " " + playerCol);
         //grid[playerRow, playerCol].setPlayer(null);
         createMove(playerRow, playerCol);
     }

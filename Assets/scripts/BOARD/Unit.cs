@@ -33,6 +33,8 @@ public class Unit : MonoBehaviour
 
     private Frame grandparent;
 
+    public GameObject moveObject;
+
     public void initialize()
     {
         this.GetComponent<SpriteRenderer>().sprite = unit;
@@ -77,7 +79,7 @@ public class Unit : MonoBehaviour
 
     public void addMove()
     {
-        move = Instantiate(move, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
+        moveObject = Instantiate(move, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
         //move.GetComponent<RectTransform>().localPosition = GetComponent<RectTransform>().localPosition;
         hasMove = true;
     }
@@ -86,7 +88,7 @@ public class Unit : MonoBehaviour
     {
         if(hasMove)
         {
-            Destroy(move);
+            Destroy(moveObject);
         }
         hasMove = false;
     }
