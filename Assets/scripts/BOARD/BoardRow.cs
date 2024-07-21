@@ -57,9 +57,6 @@ public class BoardRow : MonoBehaviour
 
     public void buildGrid(Unit[,] grid, int index)
     {
-        int rows = grid.GetLength(0);
-        int cols = grid.GetLength(1);
-        int balls = 5;
         //Debug.Log(rows + " " + cols);
         for(int i  = 0; i < numImage; i++)
         {

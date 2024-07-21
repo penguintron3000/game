@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -50,7 +51,6 @@ public class Board : MonoBehaviour
             //img.GetComponent<FlexGridRow>().parent = frame;
         }
         //createGrid();
-
         StartCoroutine(updatePosition());
     }
 
@@ -92,36 +92,11 @@ public class Board : MonoBehaviour
 
     public void DestroyAllMove(int row, int col)
     {
-        int minRow = row - 1;
-        if (minRow < 0)
+        int numSquares = markedUnits.Count;
+        for(int i = 0; i < numSquares; i++)
         {
-            minRow = 0;
-        }
-        int maxRow = row + 1;
-        if (maxRow > numBody)
-        {
-            maxRow = numBody;
-        }
-        int minCol = col - 1;
-        if (minCol < 0)
-        {
-            minCol = 0;
-        }
-        int maxCol = col + 1;
-        if (maxCol > numUnitsPerBody)
-        {
-            maxCol = numUnitsPerBody;
-        }
-        for (int i = minRow; i < maxRow + 1; i++)
-        {
-            for (int j = minCol; j < maxCol + 1; j++)
-            {
-                if (i == row && j == col)
-                {
-                    continue;
-                }
-                grid[i, j].DestroyMove();
-            }
+            markedUnits[0].DestroyMove();
+            markedUnits.Remove(markedUnits[0]);
         }
     }
 
@@ -157,47 +132,45 @@ public class Board : MonoBehaviour
         Debug.Log(playerRow + " " + playerCol);
     }
 
+    List<Unit> markedUnits = new List<Unit>();
     public void createMove(int row, int col)
     {
-        int minRow = row - 1;
-        if(minRow < 0)
-        {
-            minRow = 0;
-        }
-        int maxRow = row + 1;
-        if(maxRow > numBody)
-        {
-            maxRow = numBody;
-        }
+        Debug.Log(playerRow + " " + playerCol);
         int minCol = col - 1;
         if(minCol < 0)
         {
             minCol = 0;
         }
         int maxCol = col + 1;
-        if(maxCol > numUnitsPerBody)
+        if(maxCol > numUnitsPerBody - 1)
         {
-            maxCol = numUnitsPerBody;
+            maxCol = numUnitsPerBody - 1;
         }
-        for(int i = minRow; i < maxRow + 1; i++)
+        for(int i = 0; i < 3; i++)
         {
+            int rowPlacement = row;
+
             int moveX = 0;
-            if (i == row - 1)
+            if (i == 0)
             {
                 moveX = -1;
             }
-            if (i == row + 1)
+            if (i == 2)
             {
                 moveX = 1;
             }
+            rowPlacement += moveX + numBody;
+            rowPlacement %= numBody;
 
             for (int j = minCol; j < maxCol + 1; j++)
             {
-                if(i == row && j == col)
+                if(i == 1 && j == col)
                 {
                     continue;
                 }
-                grid[i, j].addMove();
+                Unit unit = grid[rowPlacement, j];
+                unit.addMove();
+                markedUnits.Add(unit);
                 int moveY = 0;
                
                 if(j == col - 1)
@@ -208,7 +181,7 @@ public class Board : MonoBehaviour
                 {
                     moveY = 1;
                 }
-                grid[i, j].setDirections(moveX, moveY);
+                unit.setDirections(moveX, moveY);
             }
         }
     }
@@ -227,7 +200,10 @@ public class Board : MonoBehaviour
 
     public void CheckNumReady(Unit temp)
     {
-        checkSet.Add(temp);
+        if(temp != null)
+        {
+            checkSet.Add(temp);
+        }
         if(checkSet.Count == numBody * numUnitsPerBody)
         {
             createGrid();
@@ -248,9 +224,8 @@ public class Board : MonoBehaviour
         target.setPlayer(player);
         player.transform.SetParent(target.transform);
         player.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, -2);
-        playerRow = (playerRow + target.getDirectionX());
-        playerCol = (playerCol + target.getDirectionY());
-        Debug.Log(playerRow + " " + playerCol);
+        playerRow = (playerRow + target.getDirectionX() + numBody) % numBody;
+        playerCol = (playerCol + target.getDirectionY() + numUnitsPerBody) % numUnitsPerBody;
         //grid[playerRow, playerCol].setPlayer(null);
         createMove(playerRow, playerCol);
     }

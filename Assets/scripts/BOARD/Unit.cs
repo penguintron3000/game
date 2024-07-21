@@ -28,7 +28,7 @@ public class Unit : MonoBehaviour
 
     private BoardRow boardRow;
 
-    public GameObject move;
+    public GameObject movePrefab;
     public bool hasMove = false;
 
     private Board board;
@@ -55,6 +55,8 @@ public class Unit : MonoBehaviour
             spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
         }
         boardRow.ReportNumReady(this);
+        movePrefab.SetActive(false);
+
     }
     // Start is called before the first frame update
     void Start()
@@ -82,8 +84,9 @@ public class Unit : MonoBehaviour
 
     public void addMove()
     {
-        moveObject = Instantiate(move, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
+        //moveObject = Instantiate(movePrefab, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
         //move.GetComponent<RectTransform>().localPosition = GetComponent<RectTransform>().localPosition;
+        movePrefab.SetActive(true);
         hasMove = true;
     }
 
@@ -91,7 +94,7 @@ public class Unit : MonoBehaviour
     {
         if(hasMove)
         {
-            Destroy(moveObject);
+            movePrefab.SetActive(false);
         }
         hasMove = false;
     }
@@ -103,7 +106,7 @@ public class Unit : MonoBehaviour
 
     public void OnMouseUp()
     {
-        if (true)
+        if (hasMove)
         {
             Debug.Log("click " + moveDirectionX + " " + moveDirectionY);
             board.movePlayer(this);
