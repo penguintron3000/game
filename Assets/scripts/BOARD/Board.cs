@@ -11,7 +11,7 @@ public class Board : MonoBehaviour
     public GameObject frame;
     public GameObject body;
     public int numBody;
-    public int numUnitsPerBody;
+    public int numUnitsPerRow;
     RectTransform rectTransform;
     private int interval = 130;
     Vector3 anchor;
@@ -34,7 +34,7 @@ public class Board : MonoBehaviour
         anchor = rectTransform.localPosition;
 
 
-        grid = new Unit[numBody, numUnitsPerBody];
+        grid = new Unit[numBody, numUnitsPerRow];
         removeMove = numBody;
 
         for (int i = 0; i < numBody; i++)
@@ -46,8 +46,7 @@ public class Board : MonoBehaviour
                 boardRow.initializePlayer();
             }
             rows.Add(img);
-            boardRow.setParent(this);
-            boardRow.initialize();
+            boardRow.initialize(this);
             //img.GetComponent<FlexGridRow>().parent = frame;
         }
         //createGrid();
@@ -86,18 +85,8 @@ public class Board : MonoBehaviour
             removeMove = numBody - 1;
         }
         GameObject remove = rows[removeMove];
-        remove.GetComponent<BoardRow>().DestroyMove();
+        remove.GetComponent<BoardRow>().moveInactiveRow();
         last.transform.localPosition = lcl;
-    }
-
-    public void DestroyAllMove(int row, int col)
-    {
-        int numSquares = markedUnits.Count;
-        for(int i = 0; i < numSquares; i++)
-        {
-            markedUnits[0].DestroyMove();
-            markedUnits.Remove(markedUnits[0]);
-        }
     }
 
     private IEnumerator updatePosition()
@@ -127,7 +116,7 @@ public class Board : MonoBehaviour
         {
             rows[i].GetComponent<BoardRow>().buildGrid(grid, i);
         }
-        playerCol = numUnitsPerBody / 2;
+        playerCol = numUnitsPerRow / 2;
         createMove(playerRow, playerCol);
         Debug.Log(playerRow + " " + playerCol);
     }
@@ -142,9 +131,9 @@ public class Board : MonoBehaviour
             minCol = 0;
         }
         int maxCol = col + 1;
-        if(maxCol > numUnitsPerBody - 1)
+        if(maxCol > numUnitsPerRow - 1)
         {
-            maxCol = numUnitsPerBody - 1;
+            maxCol = numUnitsPerRow - 1;
         }
         for(int i = 0; i < 3; i++)
         {
@@ -169,7 +158,7 @@ public class Board : MonoBehaviour
                     continue;
                 }
                 Unit unit = grid[rowPlacement, j];
-                unit.addMove();
+                unit.moveActive();
                 markedUnits.Add(unit);
                 int moveY = 0;
                
@@ -186,25 +175,24 @@ public class Board : MonoBehaviour
         }
     }
 
-    public void updateMoveTiles()
+    public void moveInactiveAll(int row, int col)
     {
-        for(int i = 0; i < 3; i++)
+        int numSquares = markedUnits.Count;
+        for (int i = 0; i < numSquares; i++)
         {
-            for(int j = 0; j < 3; j++)
-            {
-
-            }
+            markedUnits[0].moveInactive();
+            markedUnits.Remove(markedUnits[0]);
         }
     }
-    HashSet<Unit> checkSet = new HashSet<Unit>();
 
-    public void CheckNumReady(Unit temp)
+    HashSet<Unit> checkSet = new HashSet<Unit>();
+    public void ReportGridReady(Unit temp)
     {
         if(temp != null)
         {
             checkSet.Add(temp);
         }
-        if(checkSet.Count == numBody * numUnitsPerBody)
+        if(checkSet.Count == numBody * numUnitsPerRow)
         {
             createGrid();
         }
@@ -220,12 +208,12 @@ public class Board : MonoBehaviour
 
     public void movePlayer(Unit target)
     {
-        DestroyAllMove(playerRow, playerCol);
+        moveInactiveAll(playerRow, playerCol);
         target.setPlayer(player);
         player.transform.SetParent(target.transform);
         player.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, -2);
         playerRow = (playerRow + target.getDirectionX() + numBody) % numBody;
-        playerCol = (playerCol + target.getDirectionY() + numUnitsPerBody) % numUnitsPerBody;
+        playerCol = (playerCol + target.getDirectionY() + numUnitsPerRow) % numUnitsPerRow;
         //grid[playerRow, playerCol].setPlayer(null);
         createMove(playerRow, playerCol);
     }

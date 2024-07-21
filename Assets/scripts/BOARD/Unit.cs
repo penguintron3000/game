@@ -28,17 +28,21 @@ public class Unit : MonoBehaviour
 
     private BoardRow boardRow;
 
-    public GameObject movePrefab;
+    public GameObject moveObject;
     public bool hasMove = false;
 
     private Board board;
 
-    public GameObject moveObject;
-
     private SpriteRenderer spriteRenderer;
 
-    public void initialize()
+    public void initialize(BoardRow boardrow, Board board, bool doCreatePlayer)
     {
+        this.board = board;
+        this.boardRow = boardrow;
+        if (doCreatePlayer)
+        {
+            this.createPlayer();
+        }
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = unit;
         //System.Random r = new System.Random();
@@ -54,8 +58,7 @@ public class Unit : MonoBehaviour
         {
             spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
         }
-        boardRow.ReportNumReady(this);
-        movePrefab.SetActive(false);
+        moveObject.SetActive(false);
 
     }
     // Start is called before the first frame update
@@ -82,19 +85,19 @@ public class Unit : MonoBehaviour
         this.boardRow = parent;
     }
 
-    public void addMove()
+    public void moveActive()
     {
         //moveObject = Instantiate(movePrefab, new Vector3(0, 0, 0), Quaternion.identity, this.transform);
         //move.GetComponent<RectTransform>().localPosition = GetComponent<RectTransform>().localPosition;
-        movePrefab.SetActive(true);
+        moveObject.SetActive(true);
         hasMove = true;
     }
 
-    public void DestroyMove()
+    public void moveInactive()
     {
         if(hasMove)
         {
-            movePrefab.SetActive(false);
+            moveObject.SetActive(false);
         }
         hasMove = false;
     }

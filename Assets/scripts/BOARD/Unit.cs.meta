@@ -7,9 +7,8 @@ MonoImporter:
   - unit: {fileID: 21300000, guid: 18f34563b85f277418f405c0bb86840b, type: 3}
   - player: {fileID: 1655919165581486036, guid: 2c165093fa63ada4e9dcc367e0dc8095,
       type: 3}
-  - movePrefab: {fileID: 2606764723092804850, guid: adab14b7cf2144c4295e62d6e6d6a81c,
+  - moveObject: {fileID: 7652770951659185294, guid: 101b36dca3055554aaca23e0f797b5fc,
       type: 3}
-  - moveObject: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -7,16 +7,16 @@
       "RelativeMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\board\\board.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|C:\\Users\\werty\\Downloads\\game\\assets\\scripts\\board\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\board\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|C:\\Users\\werty\\Downloads\\game\\assets\\scripts\\board\\boardrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\board\\boardrow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|C:\\Users\\werty\\Downloads\\game\\assets\\scripts\\board\\flexgrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\board\\flexgrid.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|C:\\Users\\werty\\Downloads\\game\\assets\\scripts\\board\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\board\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1AF7E356-2D58-7119-FE6C-C1ED31A62E64}|Assembly-CSharp.csproj|C:\\Users\\werty\\Downloads\\game\\assets\\scripts\\board\\playernew.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -70,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
@@ -98,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "FlexGrid.cs",
               "DocumentMoniker": "C:\\Users\\werty\\Downloads\\game\\Assets\\scripts\\BOARD\\FlexGrid.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\BOARD\\FlexGrid.cs",
@@ -106,20 +106,32 @@
               "RelativeToolTip": "Assets\\scripts\\BOARD\\FlexGrid.cs",
               "ViewState": "AQIAADsAAAAAAAAAAAAAAEwAAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-11T23:53:11.889Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-11T23:53:11.889Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Unit.cs",
               "DocumentMoniker": "C:\\Users\\werty\\Downloads\\game\\Assets\\scripts\\BOARD\\Unit.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\BOARD\\Unit.cs",
               "ToolTip": "C:\\Users\\werty\\Downloads\\game\\Assets\\scripts\\BOARD\\Unit.cs",
               "RelativeToolTip": "Assets\\scripts\\BOARD\\Unit.cs",
-              "ViewState": "AQIAAGAAAAAAAAAAAAAnwGwAAAATAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAqwCsAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-14T00:07:04.234Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BoardRow.cs",
+              "DocumentMoniker": "C:\\Users\\werty\\Downloads\\game\\Assets\\scripts\\BOARD\\BoardRow.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\BOARD\\BoardRow.cs",
+              "ToolTip": "C:\\Users\\werty\\Downloads\\game\\Assets\\scripts\\BOARD\\BoardRow.cs",
+              "RelativeToolTip": "Assets\\scripts\\BOARD\\BoardRow.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAvwCgAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-13T23:00:09.934Z",
               "EditorCaption": ""
             },
             {
@@ -130,22 +142,9 @@
               "RelativeDocumentMoniker": "Assets\\scripts\\BOARD\\Board.cs",
               "ToolTip": "C:\\Users\\werty\\Downloads\\game\\Assets\\scripts\\BOARD\\Board.cs",
               "RelativeToolTip": "Assets\\scripts\\BOARD\\Board.cs",
-              "ViewState": "AQIAALsAAAAAAAAAAAAewM4AAAAeAAAA",
+              "ViewState": "AQIAAHAAAAAAAAAAAAAqwH4AAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-13T23:02:47.018Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "BoardRow.cs",
-              "DocumentMoniker": "C:\\Users\\werty\\Downloads\\game\\Assets\\scripts\\BOARD\\BoardRow.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\BOARD\\BoardRow.cs",
-              "ToolTip": "C:\\Users\\werty\\Downloads\\game\\Assets\\scripts\\BOARD\\BoardRow.cs",
-              "RelativeToolTip": "Assets\\scripts\\BOARD\\BoardRow.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAwwD4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-13T23:00:09.934Z",
               "EditorCaption": ""
             },
             {
