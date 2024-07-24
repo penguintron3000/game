@@ -28,6 +28,7 @@ public class Board : MonoBehaviour
 
     private GameObject player;
 
+    public GameObject DeckHandCard;
     public void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -50,6 +51,7 @@ public class Board : MonoBehaviour
             //img.GetComponent<FlexGridRow>().parent = frame;
         }
         //createGrid();
+        
         StartCoroutine(updatePosition());
     }
 

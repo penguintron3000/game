@@ -78,6 +78,8 @@ public class Unit : MonoBehaviour
         player = Instantiate(player, new Vector3(0, 0, -2), Quaternion.identity, this.transform);
         playerInit = true;
         board.setPlayer(player);
+        board.DeckHandCard.GetComponent<DeckNew>().setPlayer(player);
+        board.DeckHandCard.GetComponent<DeckNew>().Activate();
     }
 
     public void setParent(BoardRow parent)
