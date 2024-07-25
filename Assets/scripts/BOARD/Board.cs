@@ -94,7 +94,7 @@ public class Board : MonoBehaviour
     private IEnumerator updatePosition()
     {
         iTween.MoveTo(gameObject, iTween.Hash(
-            "position", new Vector3(anchor.x, 1f, anchor.z),
+            "position", new Vector3(anchor.x, -1f, anchor.z),
             "islocal", true,
             "time", 2.0f,
             "oncomplete", "onMoveCompleteCallback",
