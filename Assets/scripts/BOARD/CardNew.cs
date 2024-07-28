@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
+
 
 public class CardNew : MonoBehaviour
 {
     public HandNew Hand;
-
+    public GameObject board;
     public GameObject Player;
 
     int boardX = -1;
     int boardY = -1;
 
     //card data
-    public string type; //fire grass water
+    public TypeColor type;
+
     public List<int[]> movement;
     public List<int[]> coverage;
     public int draw;
@@ -28,12 +31,14 @@ public class CardNew : MonoBehaviour
     private float rectX;
     private float rectY;
 
+    public int TEMPID;
+
     public void Activate()
     {
         rectTransform = GetComponent<RectTransform>();
 
         Hand = Player.GetComponent<HandNew>();
-
+        
         SetCoords();
         /**
         rectX = rectTransform.anchoredPosition.x;
@@ -43,9 +48,9 @@ public class CardNew : MonoBehaviour
 
         switch (this.type)
         {
-            case "fire": this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
-            case "grass": this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
-            case "water": this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+            case TypeColor.fire: this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
+            case TypeColor.water: this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+            case TypeColor.grass: this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
         }
 
         //this.GetComponent<SpriteRenderer>().sprite = card;
@@ -55,14 +60,15 @@ public class CardNew : MonoBehaviour
     {
         switch (this.type)
         {
-            case "fire": this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
-            case "grass": this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
-            case "water": this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+            case TypeColor.fire: this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
+            case TypeColor.water: this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+            case TypeColor.grass: this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
         }
     }
 
     public void OnMouseUp()
     {
+        Debug.Log("context");
 
         if (Hand.selectedCardToDestroy == null && !Hand.cardSelected)
         {
@@ -70,55 +76,56 @@ public class CardNew : MonoBehaviour
 
             switch (this.type)
             {
-                case "fire": Player.GetComponent<Player>().setType("fire"); break;
-                case "grass": Player.GetComponent<Player>().setType("grass"); break;
-                case "water": Player.GetComponent<Player>().setType("water"); break;
+                case TypeColor.fire: Player.GetComponent<PlayerNew>().setType(TypeColor.fire); break;
+                case TypeColor.grass: Player.GetComponent<PlayerNew>().setType(TypeColor.grass); break;
+                case TypeColor.water: Player.GetComponent<PlayerNew>().setType(TypeColor.water); break;
             }
 
             Hand.cardSelected = true;
 
             Hand.selectedCardToDestroy = this;
-
-            Player.GetComponent<Player>().InitiateMove();
+            
+            //Player.GetComponent<Player>().InitiateMove();
         }
         else if (Hand.selectedCardToDestroy == this)
         {
             switch (this.type)
             {
-                case "fire": this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
-                case "grass": this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
-                case "water": this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+                case TypeColor.fire: this.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
+                case TypeColor.water: this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+                case TypeColor.grass: this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
             }
 
-            Player.GetComponent<Player>().setType("");
+            Player.GetComponent<PlayerNew>().setType(TypeColor.none);
 
             Hand.cardSelected = false;
             Hand.selectedCardToDestroy = null;
-            Player.GetComponent<Player>().DestroyMove();
-            Player.GetComponent<Player>().InitiateMove();
+            //Player.GetComponent<Player>().DestroyMove();
+            //Player.GetComponent<Player>().InitiateMove();
         }
         else
         {
             this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 
-            CardNew pastTarget = Hand.selectedCardToDestroy;
+            CardNew pastCard = Hand.selectedCardToDestroy;
+            TypeColor pastTarget = Hand.selectedCardToDestroy.type;
 
-            switch (Hand.selectedCardToDestroy.type)
+            switch (pastTarget)
             {
-                case "fire": pastTarget.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
-                case "grass": pastTarget.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
-                case "water": pastTarget.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+                case TypeColor.fire: pastCard.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1); break;
+                case TypeColor.water: pastCard.GetComponent<SpriteRenderer>().color = new Color(0, 0, 1, 1); break;
+                case TypeColor.grass: pastCard.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
             }
 
-            Player.GetComponent<Player>().setType(type);
+            Player.GetComponent<PlayerNew>().setType(type);
 
             Hand.cardSelected = true;
 
             Hand.selectedCardToDestroy = this;
-            Player.GetComponent<Player>().DestroyMove();
-            Player.GetComponent<Player>().InitiateMove();
+            //Player.GetComponent<PlayerNew>().DestroyMove();
+            //Player.GetComponent<PlayerNew>().InitiateMove();
         }
-
+        Player.GetComponent<PlayerNew>().getBoard().updateMarkerColor();
     }
 
 
@@ -199,5 +206,17 @@ public class CardNew : MonoBehaviour
     public void setCardPosition(int cardPosition)
     {
         this.CardPosition = cardPosition;
+    }
+
+    public void setType(TypeColor type)
+    {
+        this.type = type;
+    }
+
+    int count = 0;
+    public void SETTEMPID(int t){
+        TEMPID = t;
+        //Debug.Log("called " + count);
+        count++;
     }
 }

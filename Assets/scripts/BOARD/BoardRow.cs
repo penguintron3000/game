@@ -14,6 +14,8 @@ public class BoardRow : MonoBehaviour
 
     private Board board;
     private int numReady = 0;
+
+    public bool hasPlayer = false;
     public void Start()
     {
     }
@@ -36,9 +38,11 @@ public class BoardRow : MonoBehaviour
             bool createPlayer = false;
             GameObject unit = Instantiate(unitPrefab, new Vector3(0, 0, -1), Quaternion.identity, this.transform);
             Unit unitObject = unit.GetComponent<Unit>();
+            unitObject.setBoardRow(this);
             if (i == numUnits / 2 && initPlayer)
             {
                 createPlayer = true;
+                board.setFirstUnit(unitObject);
             }
             units[i] = (unitObject);
             ReportGridReady(unitObject);
@@ -78,5 +82,15 @@ public class BoardRow : MonoBehaviour
         {
             units[i].moveInactive();
         }
+    }
+
+    public void setHasPlayer(bool hasPlayer)
+    {
+        this.hasPlayer = hasPlayer;
+    }
+
+    public bool getHasPlayer()
+    {
+        return hasPlayer;
     }
 }

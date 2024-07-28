@@ -89,14 +89,18 @@ public class Board : MonoBehaviour
         GameObject remove = rows[removeMove];
         remove.GetComponent<BoardRow>().moveInactiveRow();
         last.transform.localPosition = lcl;
+        if(player.transform.position.y < -5.4f)
+        {
+            speed = 1000;
+        }
     }
-
+    float speed = 2f;
     private IEnumerator updatePosition()
     {
         iTween.MoveTo(gameObject, iTween.Hash(
             "position", new Vector3(anchor.x, -1f, anchor.z),
             "islocal", true,
-            "time", 2.0f,
+            "time", speed,
             "oncomplete", "onMoveCompleteCallback",
             "oncompletetarget", gameObject,
             "easetype", iTween.EaseType.linear
@@ -104,12 +108,25 @@ public class Board : MonoBehaviour
         yield break;
     }
 
+    public void setSpeed(float speed)
+    {
+        if(speed > .1f)
+        {
+            this.speed = speed;
+        }
+    }
+
+    public float getSpeed()
+    {
+        return speed;
+    }
 
     private void onMoveCompleteCallback()
     {
         rectTransform.localPosition = anchor;
         shiftRows();
         StartCoroutine(updatePosition());
+        Debug.Log(speed);
     }
     
     public void createGrid()
@@ -120,13 +137,13 @@ public class Board : MonoBehaviour
         }
         playerCol = numUnitsPerRow / 2;
         createMove(playerRow, playerCol);
-        Debug.Log(playerRow + " " + playerCol);
+        //Debug.Log(playerRow + " " + playerCol);
     }
 
     List<Unit> markedUnits = new List<Unit>();
     public void createMove(int row, int col)
     {
-        Debug.Log(playerRow + " " + playerCol);
+        //Debug.Log(playerRow + " " + playerCol);
         int minCol = col - 1;
         if(minCol < 0)
         {
@@ -175,6 +192,7 @@ public class Board : MonoBehaviour
                 unit.setDirections(moveX, moveY);
             }
         }
+        updateMarkerColor();
     }
 
     public void moveInactiveAll(int row, int col)
@@ -187,6 +205,12 @@ public class Board : MonoBehaviour
         }
     }
 
+    public void updateMarkerColor()
+    {
+        for (int i = 0; i < markedUnits.Count; i++) {
+            markedUnits[i].updateMarkerColor(player.GetComponent<PlayerNew>().getTypeColor());
+        }
+    }
     HashSet<Unit> checkSet = new HashSet<Unit>();
     public void ReportGridReady(Unit temp)
     {
@@ -208,16 +232,30 @@ public class Board : MonoBehaviour
     int newTrackRow = 1;
     int newTrackCol = 4;
 
+    Unit current;
     public void movePlayer(Unit target)
     {
         moveInactiveAll(playerRow, playerCol);
+        current.setHasPlayer(false);
+        if(target.getTypeColor() != TypeColor.none)
+        {
+            DeckHandCard.GetComponent<DeckNew>().getHand().Draw();
+            player.GetComponent<PlayerNew>().setType(TypeColor.none);
+        }
         target.setPlayer(player);
         player.transform.SetParent(target.transform);
         player.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, -2);
         playerRow = (playerRow + target.getDirectionX() + numBody) % numBody;
         playerCol = (playerCol + target.getDirectionY() + numUnitsPerRow) % numUnitsPerRow;
+        target.setDirections(0, 0);
+        current = target;
         //grid[playerRow, playerCol].setPlayer(null);
         createMove(playerRow, playerCol);
+    }
+
+    public void setFirstUnit(Unit current)
+    {
+        this.current = current;
     }
 
     public void setPlayer(GameObject player)

@@ -8,8 +8,6 @@ public class DeckNew : MonoBehaviour
     //dequeue first 4 cards to hand, so starting deck size is 36
     private int deckSize = 40;
     public GameObject cardObject;
-    [SerializeField] private GameObject canvasObject;
-    public Canvas canvas;
     private GameObject Player;
 
     private HandNew hand;
@@ -35,7 +33,7 @@ public class DeckNew : MonoBehaviour
             GameObject obj = Instantiate(cardObject, new Vector3(0, 0, -1), Quaternion.identity);
             if(i < 4)
             {
-                obj.transform.parent = this.transform;
+                obj.transform.SetParent(this.transform, false);
             }
             
             c.Enqueue(obj);
@@ -46,12 +44,13 @@ public class DeckNew : MonoBehaviour
 
             switch (rGen)
             {
-                case 0: card.type = "fire"; break;
-                case 1: card.type = "grass"; break;
-                case 2: card.type = "water"; break;
+                case 0: card.setType(TypeColor.fire); break;
+                case 1: card.setType(TypeColor.grass); break;
+                case 2: card.setType(TypeColor.water); break;
             }
             card.setX(5);
             card.setY(i);
+            card.SETTEMPID(i);
             card.Activate();
             obj.SetActive(false);
         }
@@ -73,26 +72,35 @@ public class DeckNew : MonoBehaviour
 
         GameObject toHand = deck.Peek();
 
-        int x = discardedCard.GetComponent<Card>().getX();
-        int y = discardedCard.GetComponent<Card>().getY();
-        RectTransform rect = discardedCard.GetComponent<Card>().getRectTransform();
-        discardedCard.GetComponent<Card>().setX(toHand.GetComponent<Card>().getX());
-        discardedCard.GetComponent<Card>().setY(toHand.GetComponent<Card>().getY());
-        float rectX = discardedCard.GetComponent<Card>().getRectX();
-        float rectY = discardedCard.GetComponent<Card>().getRectY();
-        discardedCard.GetComponent<Card>().setRectXY(toHand.GetComponent<Card>().getRectX(), toHand.GetComponent<Card>().getRectY());
-        discardedCard.GetComponent<Card>().setCardPosition(-1);
+        toHand.SetActive(true);
+        toHand.transform.SetParent(this.transform, false);
+
+        discardedCard.transform.SetParent(null);
+        discardedCard.SetActive(false);
+        
+
+        toHand.GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 10);
+        /*
+        int x = discardedCard.GetComponent<CardNew>().getX();
+        int y = discardedCard.GetComponent<CardNew>().getY();
+        RectTransform rect = discardedCard.GetComponent<CardNew>().getRectTransform();
+        discardedCard.GetComponent<CardNew>().setX(toHand.GetComponent<CardNew>().getX());
+        discardedCard.GetComponent<CardNew>().setY(toHand.GetComponent<CardNew>().getY());
+        float rectX = discardedCard.GetComponent<CardNew>().getRectX();
+        float rectY = discardedCard.GetComponent<CardNew>().getRectY();
+        discardedCard.GetComponent<CardNew>().setRectXY(toHand.GetComponent<CardNew>().getRectX(), toHand.GetComponent<CardNew>().getRectY());
+        discardedCard.GetComponent<CardNew>().setCardPosition(-1);
         discardedCard.SetActive(false);
 
         //deck[index] = deck[4];
-        toHand.GetComponent<Card>().setX(x);
-        toHand.GetComponent<Card>().setY(y);
-        toHand.GetComponent<Card>().setRectXY(rectX, rectY);
-        discardedCard.GetComponent<Card>().SetCoords();
-        toHand.GetComponent<Card>().SetCoords();
-        toHand.GetComponent<Card>().Activate();
+        toHand.GetComponent<CardNew>().setX(x);
+        toHand.GetComponent<CardNew>().setY(y);
+        toHand.GetComponent<CardNew>().setRectXY(rectX, rectY);
+        discardedCard.GetComponent<CardNew>().SetCoords();
+        toHand.GetComponent<CardNew>().SetCoords();
+        toHand.GetComponent<CardNew>().Activate();
         toHand.SetActive(true);
-
+        */
         deck.Enqueue(discardedCard);
     }
 
@@ -101,9 +109,9 @@ public class DeckNew : MonoBehaviour
         this.hand = hand;
     }
 
-    public void setCanvas(Canvas canvas)
+    public HandNew getHand()
     {
-        this.canvas = canvas;
+        return hand;
     }
 
     // Start is called before the first frame update

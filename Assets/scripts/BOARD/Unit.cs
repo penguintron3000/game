@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    enum Type{
-        fire,
-        grass,
-        water,
-        none
-    }
 
-    Type type;
+    public TypeColor type;
 
     public Sprite unit;
     private static System.Random random = new System.Random();
@@ -30,6 +24,8 @@ public class Unit : MonoBehaviour
 
     public GameObject moveObject;
     public bool hasMove = false;
+    public bool canMove = false;
+    public bool hasPlayer = false;
 
     private Board board;
 
@@ -49,14 +45,14 @@ public class Unit : MonoBehaviour
         int rand = random.Next(0, 4);
         switch (rand)
         {
-            case 0: spriteRenderer.color = new Color(1, 0, 0, 1); this.type = Type.fire; break;
-            case 1: spriteRenderer.color = new Color(0, 1, 0, 1); this.type = Type.grass; break;
-            case 2: spriteRenderer.color = new Color(0, 0, 1, 1); this.type = Type.water; break;
-            default: spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none; break;
+            case 0: spriteRenderer.color = new Color(1, 0, 0, 1); this.type = TypeColor.fire; break;
+            case 1: spriteRenderer.color = new Color(0, 1, 0, 1); this.type = TypeColor.grass; break;
+            case 2: spriteRenderer.color = new Color(0, 0, 1, 1); this.type = TypeColor.water; break;
+            default: spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = TypeColor.none; break;
         }
         if (playerInit)
         {
-            spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
+            spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = TypeColor.none;
         }
         moveObject.SetActive(false);
 
@@ -77,14 +73,24 @@ public class Unit : MonoBehaviour
     {
         player = Instantiate(player, new Vector3(0, 0, -2), Quaternion.identity, this.transform);
         playerInit = true;
+        player.GetComponent<PlayerNew>().Activate();
+        player.GetComponent<PlayerNew>().setBoard(board);
         board.setPlayer(player);
         board.DeckHandCard.GetComponent<DeckNew>().setPlayer(player);
         board.DeckHandCard.GetComponent<DeckNew>().Activate();
+        hasPlayer = true;
+        boardRow.setHasPlayer(hasPlayer);
     }
 
-    public void setParent(BoardRow parent)
+    public void setBoardRow(BoardRow parent)
     {
         this.boardRow = parent;
+    }
+
+    public void setHasPlayer(bool hasPlayer)
+    {
+        this.hasPlayer = hasPlayer;
+        boardRow.setHasPlayer(hasPlayer);
     }
 
     public void moveActive()
@@ -93,15 +99,49 @@ public class Unit : MonoBehaviour
         //move.GetComponent<RectTransform>().localPosition = GetComponent<RectTransform>().localPosition;
         moveObject.SetActive(true);
         hasMove = true;
+        canMove = false;
     }
 
     public void moveInactive()
     {
         if(hasMove)
         {
+            moveObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
             moveObject.SetActive(false);
         }
         hasMove = false;
+        canMove = false;
+    }
+
+    public void validMove()
+    {
+        moveObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1);
+        canMove = true;
+    }
+
+    public void updateMarkerColor(TypeColor playerType)
+    {
+        if(type == TypeColor.fire && playerType == TypeColor.water)
+        {
+            validMove();
+        }
+        else if (type == TypeColor.water && playerType == TypeColor.grass)
+        {
+            validMove();
+        }
+        else if (type == TypeColor.grass && playerType == TypeColor.fire)
+        {
+            validMove();
+        }
+        else if(type == TypeColor.none)
+        {
+            validMove();
+        }
+        else
+        {
+            moveObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            canMove = false;
+        }
     }
 
     public void setPlayer(GameObject player)
@@ -111,11 +151,12 @@ public class Unit : MonoBehaviour
 
     public void OnMouseUp()
     {
-        if (hasMove)
+        if (canMove)
         {
             Debug.Log("click " + moveDirectionX + " " + moveDirectionY);
             board.movePlayer(this);
-            spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = Type.none;
+            setHasPlayer(true);
+            spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = TypeColor.none;
         }
     }
 
@@ -142,5 +183,10 @@ public class Unit : MonoBehaviour
     public GameObject getPlayer()
     {
         return player;
+    }
+
+    public TypeColor getTypeColor()
+    {
+        return type;
     }
 }
