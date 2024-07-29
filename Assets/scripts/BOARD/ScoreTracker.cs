@@ -26,4 +26,9 @@ public class ScoreTracker : MonoBehaviour
             boardObj.setSpeed(boardObj.getSpeed() - .1f);
         }
     }
+
+    public int getScore()
+    {
+        return scoreCount;
+    }
 }

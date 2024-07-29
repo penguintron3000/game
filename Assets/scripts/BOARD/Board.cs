@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Board : MonoBehaviour
 {
@@ -71,6 +72,8 @@ public class Board : MonoBehaviour
         }
     }
     */
+    public GameObject score;
+    public int scoreCount;
     public void shiftRows()
     {
         GameObject last = rows[rows.Count - 1];
@@ -91,9 +94,12 @@ public class Board : MonoBehaviour
         last.transform.localPosition = lcl;
         if(player.transform.position.y < -5.4f)
         {
-            speed = 1000;
+            scoreCount = score.GetComponent<ScoreTracker>().getScore();
+            PlayerPrefs.SetInt("hiscore", scoreCount);
+            SceneManager.LoadScene("StartScreen");
         }
     }
+
     float speed = 2f;
     private IEnumerator updatePosition()
     {
