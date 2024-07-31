@@ -33,29 +33,29 @@ public class Move : MonoBehaviour {
 		controller = GameObject.FindGameObjectWithTag ("GameController");
 		hand = reference.GetComponent<Hand>();
 
-		if (attack && !(boardX == reference.GetComponent<Balls>().getX() && boardY == reference.GetComponent<Balls>().getY())) {
+		if (attack && !(boardX == reference.GetComponent<Player>().getX() && boardY == reference.GetComponent<Player>().getY())) {
 			GameObject tileObject = controller.GetComponent<Game> ().GetPosition (boardX, boardY);
 			Destroy (tileObject);
 			hand.Draw(hand.getIndex());
 			hand.cardSelected = false;
-			reference.GetComponent<Balls>().setType("");
+			reference.GetComponent<Player>().setType("");
 			//reference.GetComponent<Balls>().InitiateMove();
 			manaManager.spend(5);
         }
 
 		if (validMove)
 		{
-            controller.GetComponent<Game>().SetPositionEmpty(reference.GetComponent<Balls>().getX(), reference.GetComponent<Balls>().getY());
+            controller.GetComponent<Game>().SetPositionEmpty(reference.GetComponent<Player>().getX(), reference.GetComponent<Player>().getY());
 
-            reference.GetComponent<Balls>().setX(boardX);
-            reference.GetComponent<Balls>().setY(boardY);
-            reference.GetComponent<Balls>().SetCoords();
+            reference.GetComponent<Player>().setX(boardX);
+            reference.GetComponent<Player>().setY(boardY);
+            reference.GetComponent<Player>().SetCoords();
 
             controller.GetComponent<Game>().SetPosition(reference);
 
-            reference.GetComponent<Balls>().DestroyMove();
+            reference.GetComponent<Player>().DestroyMove();
 
-            reference.GetComponent<Balls>().InitiateMove();
+            reference.GetComponent<Player>().InitiateMove();
         }
 
     }

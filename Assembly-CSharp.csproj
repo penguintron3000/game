@@ -56,18 +56,38 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\scripts\Balls.cs" />
+    <Compile Include="Assets\scripts\BOARD\CardDisplay.cs" />
+    <Compile Include="Assets\scripts\Player.cs" />
+    <Compile Include="Assets\scripts\CardDatabase.cs" />
+    <Compile Include="Assets\scripts\BOARD\MoveNew.cs" />
     <Compile Include="Assets\scripts\Move.cs" />
+    <Compile Include="Assets\scripts\BOARD\PlayerNew.cs" />
+    <Compile Include="Assets\scripts\BOARD\Unit.cs" />
     <Compile Include="Assets\scripts\ManaManager.cs" />
     <Compile Include="Assets\scripts\Game.cs" />
+    <Compile Include="Assets\scripts\BOARD\DeckNew.cs" />
+    <Compile Include="Assets\scripts\BOARD\CardNew.cs" />
     <Compile Include="Assets\scripts\Square.cs" />
+    <Compile Include="Assets\scripts\BOARD\HandNew.cs" />
     <Compile Include="Assets\scripts\Card.cs" />
+    <Compile Include="Assets\scripts\BOARD\Board.cs" />
+    <Compile Include="Assets\scripts\BOARD\TypeColor.cs" />
+    <Compile Include="Assets\scripts\BOARD\FlexGrid.cs" />
+    <Compile Include="Assets\scripts\BOARD\ScoreTracker.cs" />
     <Compile Include="Assets\scripts\DragDrop.cs" />
+    <Compile Include="Assets\scripts\BOARD\BoardRow.cs" />
+    <Compile Include="Assets\scripts\BOARD\ClipController.cs" />
     <Compile Include="Assets\scripts\WeaponSlot.cs" />
     <Compile Include="Assets\scripts\Hand.cs" />
     <Compile Include="Assets\scripts\WeaponCard.cs" />
     <Compile Include="Assets\scripts\Deck.cs" />
-    <Compile Include="Assets\scripts\CardDatabase.cs" />
+    <Compile Include="Assets\scripts\HOMESCREEN\PlayButton.cs" />
+    <Compile Include="Assets\scripts\HOMESCREEN\Highscore.cs" />
+    <Compile Include="Assets\scripts\HOMESCREEN\InstructionButton.cs" />
+    <Compile Include="Assets\scripts\INSTRUCTIONS\ReturnButton.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\scripts\BOARD\Clipper.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -678,6 +698,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{C4670D74-53BA-CADB-D209-62996F2B0691}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
