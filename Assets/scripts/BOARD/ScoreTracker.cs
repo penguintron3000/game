@@ -23,7 +23,7 @@ public class ScoreTracker : MonoBehaviour
         if(scoreCount % 1000 == 0)
         {
             Board boardObj = board.GetComponent<Board>();
-            boardObj.setSpeed(boardObj.getSpeed() - .1f);
+            boardObj.setSpeed(boardObj.getSpeed() - .05f);
         }
     }
 

@@ -8,7 +8,7 @@ public class PlayButton : MonoBehaviour
     // Start is called before the first frame update
     public void OnMouseUp()
     {
-        SceneManager.LoadScene("prototype");
+        SceneManager.LoadScene("Game");
         
     }
 }

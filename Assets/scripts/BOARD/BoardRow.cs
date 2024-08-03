@@ -93,4 +93,12 @@ public class BoardRow : MonoBehaviour
     {
         return hasPlayer;
     }
+
+    public void RefreshColors()
+    {
+        for (int i = 0; i < units.Length; i++)
+        {
+            units[i].RefreshColors();
+        }
+    }
 }

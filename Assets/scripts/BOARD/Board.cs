@@ -91,12 +91,13 @@ public class Board : MonoBehaviour
         }
         GameObject remove = rows[removeMove];
         remove.GetComponent<BoardRow>().moveInactiveRow();
+        remove.GetComponent<BoardRow>().RefreshColors();
         last.transform.localPosition = lcl;
         if(player.transform.position.y < -5.4f)
         {
             scoreCount = score.GetComponent<ScoreTracker>().getScore();
             PlayerPrefs.SetInt("hiscore", scoreCount);
-            SceneManager.LoadScene("StartScreen");
+            SceneManager.LoadScene("gameover");
         }
     }
 

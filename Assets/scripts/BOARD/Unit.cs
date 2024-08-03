@@ -42,14 +42,24 @@ public class Unit : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = unit;
         //System.Random r = new System.Random();
-        int rand = random.Next(0, 4);
-        switch (rand)
+        int rand = random.Next(0, 10);
+        if(rand < 3)
         {
-            case 0: spriteRenderer.color = new Color(1, 0, 0, 1); this.type = TypeColor.fire; break;
-            case 1: spriteRenderer.color = new Color(0, 1, 0, 1); this.type = TypeColor.grass; break;
-            case 2: spriteRenderer.color = new Color(0, 0, 1, 1); this.type = TypeColor.water; break;
-            default: spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = TypeColor.none; break;
+            spriteRenderer.color = new Color(1, 0, 0, 1); this.type = TypeColor.fire;
         }
+        else if(rand < 6)
+        {
+            spriteRenderer.color = new Color(0, 1, 0, 1); this.type = TypeColor.grass;
+        }
+        else if(rand < 9)
+        {
+            spriteRenderer.color = new Color(0, 0, 1, 1); this.type = TypeColor.water;
+        }
+        else
+        {
+            spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = TypeColor.none;
+        }
+        
         if (playerInit)
         {
             spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = TypeColor.none;
@@ -188,5 +198,26 @@ public class Unit : MonoBehaviour
     public TypeColor getTypeColor()
     {
         return type;
+    }
+
+    public void RefreshColors()
+    {
+        int rand = random.Next(0, 10);
+        if (rand < 3)
+        {
+            spriteRenderer.color = new Color(1, 0, 0, 1); this.type = TypeColor.fire;
+        }
+        else if (rand < 6)
+        {
+            spriteRenderer.color = new Color(0, 1, 0, 1); this.type = TypeColor.grass;
+        }
+        else if (rand < 9)
+        {
+            spriteRenderer.color = new Color(0, 0, 1, 1); this.type = TypeColor.water;
+        }
+        else
+        {
+            spriteRenderer.color = new Color(0.2f, .4f, .4f, 1); this.type = TypeColor.none;
+        }
     }
 }
