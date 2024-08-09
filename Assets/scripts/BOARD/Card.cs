@@ -4,9 +4,9 @@ using System.Threading;
 using UnityEngine;
 
 
-public class CardNew : MonoBehaviour
+public class Card : MonoBehaviour
 {
-    public HandNew Hand;
+    public Hand Hand;
     public GameObject board;
     public GameObject Player;
 
@@ -37,7 +37,7 @@ public class CardNew : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
 
-        Hand = Player.GetComponent<HandNew>();
+        Hand = Player.GetComponent<Hand>();
         
         SetCoords();
         /**
@@ -76,9 +76,9 @@ public class CardNew : MonoBehaviour
 
             switch (this.type)
             {
-                case TypeColor.fire: Player.GetComponent<PlayerNew>().setType(TypeColor.fire); break;
-                case TypeColor.grass: Player.GetComponent<PlayerNew>().setType(TypeColor.grass); break;
-                case TypeColor.water: Player.GetComponent<PlayerNew>().setType(TypeColor.water); break;
+                case TypeColor.fire: Player.GetComponent<Player>().setType(TypeColor.fire); break;
+                case TypeColor.grass: Player.GetComponent<Player>().setType(TypeColor.grass); break;
+                case TypeColor.water: Player.GetComponent<Player>().setType(TypeColor.water); break;
             }
 
             Hand.cardSelected = true;
@@ -96,7 +96,7 @@ public class CardNew : MonoBehaviour
                 case TypeColor.grass: this.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
             }
 
-            Player.GetComponent<PlayerNew>().setType(TypeColor.none);
+            Player.GetComponent<Player>().setType(TypeColor.none);
 
             Hand.cardSelected = false;
             Hand.selectedCardToDestroy = null;
@@ -107,7 +107,7 @@ public class CardNew : MonoBehaviour
         {
             this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
 
-            CardNew pastCard = Hand.selectedCardToDestroy;
+            Card pastCard = Hand.selectedCardToDestroy;
             TypeColor pastTarget = Hand.selectedCardToDestroy.type;
 
             switch (pastTarget)
@@ -117,7 +117,7 @@ public class CardNew : MonoBehaviour
                 case TypeColor.grass: pastCard.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0, 1); break;
             }
 
-            Player.GetComponent<PlayerNew>().setType(type);
+            Player.GetComponent<Player>().setType(type);
 
             Hand.cardSelected = true;
 
@@ -125,7 +125,7 @@ public class CardNew : MonoBehaviour
             //Player.GetComponent<PlayerNew>().DestroyMove();
             //Player.GetComponent<PlayerNew>().InitiateMove();
         }
-        Player.GetComponent<PlayerNew>().getBoard().updateMarkerColor();
+        Player.GetComponent<Player>().getBoard().updateMarkerColor();
     }
 
 

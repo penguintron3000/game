@@ -215,7 +215,7 @@ public class Board : MonoBehaviour
     public void updateMarkerColor()
     {
         for (int i = 0; i < markedUnits.Count; i++) {
-            markedUnits[i].updateMarkerColor(player.GetComponent<PlayerNew>().getTypeColor());
+            markedUnits[i].updateMarkerColor(player.GetComponent<Player>().getTypeColor());
         }
     }
     HashSet<Unit> checkSet = new HashSet<Unit>();
@@ -246,8 +246,8 @@ public class Board : MonoBehaviour
         current.setHasPlayer(false);
         if(target.getTypeColor() != TypeColor.none)
         {
-            DeckHandCard.GetComponent<DeckNew>().getHand().Draw();
-            player.GetComponent<PlayerNew>().setType(TypeColor.none);
+            DeckHandCard.GetComponent<Deck>().getHand().Draw();
+            player.GetComponent<Player>().setType(TypeColor.none);
         }
         target.setPlayer(player);
         player.transform.SetParent(target.transform);

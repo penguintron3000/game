@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerNew : MonoBehaviour
+public class Player : MonoBehaviour
 {
     public Sprite PlayerSprite;
 

@@ -6,7 +6,6 @@ public class Hand : MonoBehaviour
 {
     private Deck deck;
     private Queue<GameObject> deckList;
-    private GameObject controller;
 
     public Card selectedCardToDestroy;
     public GameObject ObjectCardToDestroy;
@@ -22,7 +21,7 @@ public class Hand : MonoBehaviour
         deckList = deck.getDeckList();
         hand = new GameObject[handSize];
         //initial draw
-        for(int i = 0; i < hand.Length; i++)
+        for (int i = 0; i < hand.Length; i++)
         {
             hand[i] = deckList.Dequeue();
             hand[i].GetComponent<Card>().setCardPosition(i);
@@ -30,15 +29,15 @@ public class Hand : MonoBehaviour
         }
     }
 
-    public void Draw(int index)
+    public void Draw()
     {
-        hand[index].GetComponent<Card>().setCardPosition(-1);
-        hand[index].GetComponent<Card>().setColor();
-        deck.Draw(hand[index]); //CHANGE TO HAND[INDEX] 6/16/2024
-        hand[index] = deckList.Dequeue();
-        hand[index].GetComponent<Card>().setCardPosition(index);
-        Debug.Log("index " + index);
-    } 
+        hand[handIndex].GetComponent<Card>().setCardPosition(-1);
+        hand[handIndex].GetComponent<Card>().setColor();
+        deck.Draw(hand[handIndex]); //CHANGE TO HAND[INDEX] 6/16/2024
+        hand[handIndex] = deckList.Dequeue();
+        hand[handIndex].GetComponent<Card>().setCardPosition(handIndex);
+        Debug.Log("index " + handIndex);
+    }
 
     public void setDeck(Deck deck)
     {
@@ -60,7 +59,7 @@ public class Hand : MonoBehaviour
                 {
                     ObjectCardToDestroy = hand[i];
                     handIndex = i;
-                    Debug.Log(handIndex);
+                    //Debug.Log(handIndex);
                 }
             }
         }

@@ -83,11 +83,11 @@ public class Unit : MonoBehaviour
     {
         player = Instantiate(player, new Vector3(0, 0, -2), Quaternion.identity, this.transform);
         playerInit = true;
-        player.GetComponent<PlayerNew>().Activate();
-        player.GetComponent<PlayerNew>().setBoard(board);
+        player.GetComponent<Player>().Activate();
+        player.GetComponent<Player>().setBoard(board);
         board.setPlayer(player);
-        board.DeckHandCard.GetComponent<DeckNew>().setPlayer(player);
-        board.DeckHandCard.GetComponent<DeckNew>().Activate();
+        board.DeckHandCard.GetComponent<Deck>().setPlayer(player);
+        board.DeckHandCard.GetComponent<Deck>().Activate();
         hasPlayer = true;
         boardRow.setHasPlayer(hasPlayer);
     }

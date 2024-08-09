@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeckNew : MonoBehaviour
+public class Deck : MonoBehaviour
 {
     private Queue<GameObject> deck;
     //dequeue first 4 cards to hand, so starting deck size is 36
@@ -10,7 +10,7 @@ public class DeckNew : MonoBehaviour
     public GameObject cardObject;
     private GameObject Player;
 
-    private HandNew hand;
+    private Hand hand;
 
     public void Activate()
     {
@@ -19,7 +19,7 @@ public class DeckNew : MonoBehaviour
         deck = CreateCards(r);
         //canvasObject = GameObject.FindGameObjectWithTag("Canvas");
         //canvas = canvasObject.GetComponent<Canvas>();
-        hand = Player.GetComponent<HandNew>();
+        hand = Player.GetComponent<Hand>();
         hand.setDeck(this);
         hand.Activate();
     }
@@ -38,7 +38,7 @@ public class DeckNew : MonoBehaviour
             
             c.Enqueue(obj);
 
-            CardNew card = obj.GetComponent<CardNew>();
+            Card card = obj.GetComponent<Card>();
 
             card.setReference(Player);
 
@@ -104,12 +104,12 @@ public class DeckNew : MonoBehaviour
         deck.Enqueue(discardedCard);
     }
 
-    public void setHand(HandNew hand)
+    public void setHand(Hand hand)
     {
         this.hand = hand;
     }
 
-    public HandNew getHand()
+    public Hand getHand()
     {
         return hand;
     }
